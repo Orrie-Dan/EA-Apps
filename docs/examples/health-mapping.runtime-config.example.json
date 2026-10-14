@@ -1,0 +1,159 @@
+{
+  "app": {
+    "name": "Health Mapping",
+    "shortName": "Health",
+    "description": "",
+    "eyebrow": "",
+    "homeTitle": "Health Mapping",
+    "homeLead": "Choose a module on the left, then open a solution. It will load in this pane.",
+    "tagline": "A central platform for health facility, service accessibility, disease surveillance, and food and drugs industry mapping.",
+    "hero": "/assets/login-health.png",
+    "documentTitle": "Health Mapping"
+  },
+  "branding": {
+    "logo": "/assets/app-icon.png",
+    "favicon": "/favicon.svg"
+  },
+  "organization": {
+    "name": "GeoHub Rwanda",
+    "legalName": "Rwanda Space Agency",
+    "copyrightYear": 2026
+  },
+  "contact": {
+    "heading": "Contact",
+    "email": "",
+    "agency": "",
+    "phone": "",
+    "phoneLabel": ""
+  },
+  "footer": {
+    "blurb": "Supporting health planning and service delivery through reliable geospatial information.",
+    "quickLinks": [
+      { "label": "Home", "to": "/" }
+    ]
+  },
+  "legal": {
+    "disclaimer": {
+      "title": "Data Disclaimer",
+      "body": [
+        "Health Mapping publishes geospatial information for planning and operations.",
+        "Users should verify critical decisions against authoritative records."
+      ]
+    },
+    "privacy": {
+      "title": "Privacy",
+      "body": [
+        "Embedded maps may load GeoHub or partner portal content according to each application’s sharing settings."
+      ]
+    },
+    "terms": {
+      "title": "Terms of Use",
+      "body": [
+        "Use this health mapping workspace for official and lawful purposes only."
+      ]
+    },
+    "accessibility": {
+      "title": "Accessibility",
+      "body": [
+        "If you encounter a barrier, contact your GeoHub administrator."
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "health-service-accessibility",
+      "name": "Health Service Accessibility",
+      "icon": "heart-pulse",
+      "description": "Access to health services by location, travel, and coverage.",
+      "image": "/assets/health-access.jpg",
+      "apps": [
+        {
+          "id": "primary-healthcare-access",
+          "name": "Primary Healthcare Access",
+          "footerLabel": "Primary Healthcare Access",
+          "description": "Population access to primary healthcare facilities.",
+          "type": "Dashboard",
+          "image": "/assets/health-access.jpg",
+          "icon": "stethoscope",
+          "kind": "dashboard",
+          "portalItemId": "27973ee1a8e247d7b44a98479eec71f3",
+          "portalHostKey": "gh"
+        }
+      ]
+    },
+    {
+      "id": "disease-surveillance",
+      "name": "Disease Outbreaks Mapping",
+      "icon": "activity",
+      "description": "Disease outbreak reporting and surveillance mapping.",
+      "image": "/assets/surveillance.jpg",
+      "apps": [
+        {
+          "id": "confirmed-case-dashboard",
+          "name": "Confirmed Cases Dashboard",
+          "footerLabel": "Confirmed Cases",
+          "description": "Confirmed case dashboard and indicators.",
+          "type": "Dashboard",
+          "image": "/assets/surveillance.jpg",
+          "icon": "layers",
+          "kind": "dashboard",
+          "portalItemId": "58672ddce9ee433ca4edde6d0f85c486",
+          "portalHostKey": "rbc"
+        },
+        {
+          "id": "confirmed-case-report-form",
+          "name": "Confirmed Cases Report form",
+          "footerLabel": "Confirmed Case Form",
+          "description": "Confirmed case reporting form.",
+          "type": "Form",
+          "image": "/assets/surveillance.jpg",
+          "icon": "clipboard-list",
+          "kind": "survey123",
+          "portalItemId": "d0ccb11cd8424ee39114c2a986cd04c2",
+          "portalHostKey": "rbc"
+        }
+      ]
+    },
+    {
+      "id": "health-emergency-mapping",
+      "name": "Health Emergency",
+      "icon": "shield",
+      "description": "Health emergency response, medical services, and field reporting.",
+      "image": "/assets/emergency.jpg",
+      "apps": [
+        {
+          "id": "health-emergency-response",
+          "name": "Health Emergency Response",
+          "footerLabel": "Emergency Response",
+          "description": "Ambulance dispatch, tasks, and response monitoring.",
+          "type": "Dashboard",
+          "image": "/assets/emergency.jpg",
+          "icon": "siren",
+          "kind": "dashboard",
+          "portalItemId": "0853f19fe0a645008c0c95969855b1f2",
+          "portalHostKey": "esrirw"
+        },
+        {
+          "id": "samu-reporting-form",
+          "name": "SAMU Reporting Form",
+          "footerLabel": "SAMU Form",
+          "description": "Field reporting form for SAMU emergency records.",
+          "type": "Form",
+          "image": "/assets/emergency.jpg",
+          "icon": "clipboard-list",
+          "kind": "survey123",
+          "portalItemId": "9ea5acc523984c45b2aae19a33c43796",
+          "portalHostKey": "esrirw"
+        }
+      ]
+    }
+  ],
+  "extensions": {
+    "health-mapping": {
+      "notes": [
+        "Partner portal base URLs for portalHostKey values (gh, rbc, esrirw) remain deployment-managed.",
+        "Survey123 and private dashboard tokens/credentials must never appear in Runtime Config."
+      ]
+    }
+  }
+}

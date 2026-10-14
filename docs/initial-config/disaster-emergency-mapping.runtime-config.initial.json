@@ -1,0 +1,306 @@
+{
+  "app": {
+    "name": "Disaster and Emergency Mapping",
+    "shortName": "Response",
+    "description": "",
+    "eyebrow": "",
+    "homeTitle": "Disaster and Emergency Mapping",
+    "homeLead": "Choose a module on the left, then open a solution. It will load in this pane.",
+    "tagline": "A central platform for hazard mapping, risk analytics, and coordinated emergency operations.",
+    "hero": "/Login-disaster.jpeg",
+    "documentTitle": "Disaster and Emergency Mapping"
+  },
+  "branding": {
+    "favicon": "/favicon.png"
+  },
+  "organization": {
+    "name": "Rwanda Space Agency",
+    "legalName": "Government of the Republic of Rwanda",
+    "copyrightYear": 2026
+  },
+  "contact": {
+    "heading": "Contact",
+    "email": "",
+    "agency": "",
+    "phone": "",
+    "phoneLabel": ""
+  },
+  "footer": {
+    "blurb": "Supporting disaster preparedness, response and recovery through reliable geospatial information.",
+    "quickLinks": [
+      {
+        "label": "Home",
+        "to": "/"
+      },
+      {
+        "label": "Floods Profiling",
+        "to": "/module/disaster-mapping/app/floods"
+      },
+      {
+        "label": "Landslides Profiling",
+        "to": "/module/disaster-mapping/app/landslides"
+      },
+      {
+        "label": "Earthquakes Profiling",
+        "to": "/module/disaster-mapping/app/earthquakes"
+      },
+      {
+        "label": "Storms Profiling",
+        "to": "/module/disaster-mapping/app/storms"
+      },
+      {
+        "label": "Fire Incidents",
+        "to": "/module/disaster-mapping/app/lightning"
+      },
+      {
+        "label": "Disaster damages",
+        "to": "/module/disaster-mapping/app/disaster-effects"
+      },
+      {
+        "label": "Emergency response Mapping",
+        "to": "/module/emergency-response/app/emergency-reporting-forms"
+      },
+      {
+        "label": "Recovery Intervention",
+        "to": "/module/emergency-response/app/recovery-reporting"
+      },
+      {
+        "label": "Volunteer Coordination",
+        "to": "/module/emergency-response/app/volunteer-coordination"
+      }
+    ]
+  },
+  "legal": {
+    "disclaimer": {
+      "title": "Data Disclaimer",
+      "body": [
+        "Mapping applications and related geospatial data are provided as-is for planning and operational use. Completeness, accuracy, and currency may vary by source and refresh cycle.",
+        "Users should verify critical decisions against authoritative records. Rwanda Space Agency and contributing institutions are not liable for decisions made solely on the basis of these maps."
+      ]
+    },
+    "privacy": {
+      "title": "Privacy",
+      "body": [
+        "This workspace does not collect sign-in credentials. Mapping applications may still load GeoHub or partner portal content according to each application’s sharing settings.",
+        "Avoid entering personal credentials into third-party pages unless your institution requires it for a specific secured service."
+      ]
+    },
+    "terms": {
+      "title": "Terms of Use",
+      "body": [
+        "Use this workspace only for lawful, authorized purposes related to disaster and emergency mapping and institutional mandates in Rwanda.",
+        "Do not attempt to bypass access controls, scrape protected services, or redistribute proprietary content without permission."
+      ]
+    },
+    "accessibility": {
+      "title": "Accessibility",
+      "body": [
+        "This portal supports keyboard navigation for primary chrome (header, sidebar, and legal pages). Embedded mapping applications inherit accessibility features from their ArcGIS source apps.",
+        "If you encounter a barrier, contact your GeoHub administrator so the issue can be routed to the application owner."
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "disaster-mapping",
+      "name": "Disaster Mapping",
+      "icon": "layers",
+      "description": "Hazard profiling, susceptibility, and exposure analytics across floods, landslides, earthquakes, storms, lightning, volcanic activity, fire, and gas hazards.",
+      "image": "/Disaster mapping.jpg",
+      "apps": [
+        {
+          "id": "floods",
+          "name": "Floods Profiling",
+          "footerLabel": "Floods Profiling",
+          "description": "Flood events, susceptibility, and exposure of people and infrastructure.",
+          "type": "Dashboard",
+          "image": "/Floods.jpeg",
+          "icon": "waves",
+          "kind": "dashboard",
+          "portalItemId": "902b4a62d0f4420ab66be44e5ad8d40c",
+          "portalHostKey": "gh"
+        },
+        {
+          "id": "landslides",
+          "name": "Landslides Profiling",
+          "footerLabel": "Landslides Profiling",
+          "description": "Landslide occurrence, slope susceptibility, and assets in the path of risk.",
+          "type": "Dashboard",
+          "image": "/Landslides.jpeg",
+          "icon": "mountain",
+          "kind": "dashboard",
+          "portalItemId": "bfc8d4a4492b4ad29f845edb2e41f6cb",
+          "portalHostKey": "gh"
+        },
+        {
+          "id": "earthquakes",
+          "name": "Earthquakes Profiling",
+          "footerLabel": "Earthquakes Profiling",
+          "description": "Seismic events, magnitude, and impact on settlements and facilities.",
+          "type": "Dashboard",
+          "image": "/earthquakes.jpg",
+          "icon": "activity",
+          "kind": "dashboard",
+          "portalItemId": "f5182d0f80d641aba56b607b5b4700ff",
+          "portalHostKey": "rmb"
+        },
+        {
+          "id": "storms",
+          "name": "Storms Profiling",
+          "footerLabel": "Storms Profiling",
+          "description": "Storm intensity, wind and rainfall, and downstream exposure.",
+          "type": "Dashboard",
+          "image": "/Storms.jpg",
+          "icon": "cloud-rain",
+          "kind": "dashboard",
+          "portalItemId": "e89c802794114d7d97e4731351de612c",
+          "portalHostKey": "gh"
+        },
+        {
+          "id": "lightning",
+          "name": "Fire Incidents",
+          "footerLabel": "Fire Incidents",
+          "description": "Strike density, seasonal hotspots, and at-risk communities.",
+          "type": "Dashboard",
+          "image": "/Lightining.jpeg",
+          "icon": "zap",
+          "kind": "localShell",
+          "localShellPath": "/dashboards/lightning/index.html",
+          "portalItemId": "5b226eb64100409e85d645305cf61ab4",
+          "portalHostKey": "gh"
+        },
+        {
+          "id": "disaster-effects",
+          "name": "Disaster damages",
+          "footerLabel": "Disaster damages",
+          "description": "Disaster effects dashboard for casualties, housing, and evacuations.",
+          "type": "Dashboard",
+          "image": "/Emergency response.webp",
+          "icon": "layers",
+          "kind": "dashboard",
+          "portalItemId": "7798e9db298d43608c0ce091dd87124d",
+          "portalHostKey": "ewis"
+        }
+      ]
+    },
+    {
+      "id": "emergency-response",
+      "name": "Emergency Response Management",
+      "icon": "siren",
+      "description": "Citizen reporting, field operations, incident tracking, and firefighting resource mapping from alert through recovery.",
+      "image": "/Emergency response.webp",
+      "apps": [
+        {
+          "id": "emergency-reporting-forms",
+          "name": "Emergency response Mapping",
+          "footerLabel": "Emergency response Mapping",
+          "description": "Emergency reporting form in the response experience.",
+          "type": "Experience",
+          "image": "/Emergency operations.jpg",
+          "icon": "radio",
+          "kind": "experience",
+          "portalItemId": "eb3b4f1694e44638b4547cc1e8a50847",
+          "portalHostKey": "gh"
+        },
+        {
+          "id": "recovery-reporting",
+          "name": "Recovery Intervention",
+          "footerLabel": "Recovery Intervention",
+          "description": "Recovery reporting dashboard.",
+          "type": "Dashboard",
+          "image": "/Emergency response.webp",
+          "icon": "layers",
+          "kind": "dashboard",
+          "portalItemId": "b5dccb753e63444eabb2edaab494ac43",
+          "portalHostKey": "ewis"
+        },
+        {
+          "id": "volunteer-coordination",
+          "name": "Volunteer Coordination",
+          "footerLabel": "Volunteer Coordination",
+          "description": "Volunteer coordination.",
+          "type": "Dashboard",
+          "image": "/Emergency operations.jpg",
+          "icon": "shield",
+          "kind": "dashboard",
+          "portalItemId": "1802df7212f14aa699e250672425bfca",
+          "portalHostKey": "ewis"
+        }
+      ]
+    }
+  ],
+  "extensions": {
+    "disaster-emergency-mapping": {
+      "moduleFeatures": {
+        "disaster-mapping": [
+          "Multi-disaster event monitoring with location, time, and severity.",
+          "Susceptibility and risk classification by disaster type.",
+          "Impact and exposure for population and infrastructure.",
+          "Admin analytics from province through village.",
+          "Hotspot detection and historical trend analysis."
+        ],
+        "emergency-response": [
+          "Public tap-to-report mapping with status tracking.",
+          "Field collection for incidents, damage, and assistance.",
+          "Central incident registry with Active and Resolved states.",
+          "Proximity analysis around an incident.",
+          "Effects dashboards for casualties, housing, and evacuations."
+        ]
+      },
+      "stagedApps": [
+        {
+          "id": "volcanic",
+          "name": "Volcanic Activities",
+          "note": "Local shell + APP_SOURCES; same RMB item as earthquakes; not in catalog.",
+          "kind": "localShell",
+          "localShellPath": "/dashboards/volcanic/index.html",
+          "portalItemId": "f5182d0f80d641aba56b607b5b4700ff",
+          "portalHostKey": "rmb"
+        },
+        {
+          "id": "fire",
+          "name": "Fire Outbreaks",
+          "note": "Shell fire-outbreaks; Experience not in catalog.",
+          "kind": "localShell",
+          "localShellPath": "/dashboards/fire-outbreaks/index.html",
+          "portalItemId": "07560f9a17744ed1a6f8f81ed3e25119",
+          "portalHostKey": "gh"
+        },
+        {
+          "id": "citizen-reporting",
+          "name": "Citizens Emergency Reporting",
+          "note": "Netlify + web proxy host; not in catalog.",
+          "kind": "localShell",
+          "localShellPath": "/dashboards/citizen-reporting/index.html",
+          "externalUrl": "https://citizensemergencyreportingapp.netlify.app/",
+          "portalHostKey": "web"
+        },
+        {
+          "id": "response-operations",
+          "name": "Emergency Response Operations",
+          "note": "Duplicate of emergency-reporting-forms Experience.",
+          "kind": "experience",
+          "portalItemId": "eb3b4f1694e44638b4547cc1e8a50847",
+          "portalHostKey": "gh",
+          "localShellPath": "/dashboards/response-operations/index.html"
+        },
+        {
+          "id": "firefighting",
+          "name": "Fire Fighting Resources",
+          "note": "Same Experience id as fire; local shell only.",
+          "kind": "localShell",
+          "localShellPath": "/dashboards/firefighting/index.html",
+          "portalItemId": "07560f9a17744ed1a6f8f81ed3e25119",
+          "portalHostKey": "gh"
+        },
+        {
+          "id": "gas-petroleum",
+          "name": "Gas and Petroleum Hazards",
+          "note": "In catalog without APP_SOURCES/embed; unpublished until item known.",
+          "image": "/Gas and petroleum.avif",
+          "icon": "fuel"
+        }
+      ]
+    }
+  }
+}

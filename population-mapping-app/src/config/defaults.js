@@ -1,0 +1,122 @@
+/**
+ * Bundled Runtime Config V1 defaults for Population Mapping (HARM-01).
+ * Authoritative runtime source is GET /api/v1/config/population-mapping;
+ * this document is the resilience fallback when the service is unavailable.
+ *
+ * Content migrated from src/data/config.js + ArcGIS item IDs from src/lib/access.js.
+ * Orphan `income` (access + local shell + footer link, not in published catalog)
+ * is recorded under extensions — not invented catalog content.
+ */
+export const DEFAULT_RUNTIME_CONFIG = {
+  app: {
+    name: 'Population Mapping',
+    shortName: 'Population',
+    description: '',
+    eyebrow: 'Population and income workspace',
+    homeTitle: 'Population Mapping',
+    homeLead: 'Choose a module on the left, then open a demographic solution.',
+    tagline:
+      'Read how people and income sit on the map, then plan and target with confidence.',
+    hero: '/pop3.jpeg',
+    documentTitle: 'Population Mapping',
+  },
+  branding: {
+    favicon: '/favicon.svg',
+  },
+  organization: {
+    name: 'Rwanda Space Agency',
+    legalName: 'Government of the Republic of Rwanda',
+    copyrightYear: 2026,
+  },
+  contact: {
+    heading: 'Contact',
+    email: '',
+    agency: '',
+    phone: '',
+    phoneLabel: '',
+  },
+  footer: {
+    blurb:
+      'Supporting population and income planning through reliable geospatial information.',
+    quickLinks: [
+      { label: 'Home', to: '/' },
+      {
+        label: 'Demographic Data',
+        to: '/module/demographics/app/demographic-data',
+      },
+      {
+        label: 'Income Distribution',
+        to: '/module/demographics/app/income',
+      },
+    ],
+  },
+  legal: {
+    disclaimer: {
+      title: 'Data Disclaimer',
+      body: [
+        '{{app.name}} publishes geospatial information for planning, operations, and public awareness.',
+        'Maps and statistics are provided as-is. Always confirm critical decisions with the responsible institution and the source application’s own refresh time.',
+      ],
+    },
+    privacy: {
+      title: 'Privacy',
+      body: [
+        'This portal uses your account to sign you in and to load mapping applications you are authorised to view.',
+        'Session details stay on this origin. Do not share your username or password.',
+      ],
+    },
+    terms: {
+      title: 'Terms of Use',
+      body: [
+        'Use this portal for official and lawful purposes only. Do not attempt to bypass access controls or scrape restricted layers.',
+        'Content remains the property of {{organization.legalName}} and its partner institutions.',
+      ],
+    },
+    accessibility: {
+      title: 'Accessibility',
+      body: [
+        'Pages are built for keyboard use and common assistive technologies. Mapping viewers follow the accessibility of the source ArcGIS application.',
+        'If a page or map is hard to use, contact the institution listed in the footer.',
+      ],
+    },
+  },
+  modules: [
+    {
+      id: 'demographics',
+      name: 'Population Mapping',
+      icon: 'users',
+      description:
+        'Population and income distribution for planning and targeting.',
+      image: '/demogra.jpg',
+      apps: [
+        {
+          id: 'demographic-data',
+          name: 'Demographic Data Distribution Mapping',
+          footerLabel: 'Demographic Data',
+          description:
+            'Explore population counts, structure, and spatial patterns.',
+          type: 'Dashboard',
+          image: '/image1.jpg',
+          icon: 'chart',
+          kind: 'dashboard',
+          portalItemId: '054b8ed856e34779be12f71f8d69356b',
+          portalHostKey: 'gh',
+        },
+      ],
+    },
+  ],
+  extensions: {
+    'population-mapping': {
+      stagedApps: [
+        {
+          id: 'income',
+          name: 'Income Distribution',
+          note: 'Present in access.js / local shell / footer today but not in published catalog; promote into modules when ready.',
+          kind: 'dashboard',
+          portalItemId: 'ec170943e1b1473a81db316fb0c67342',
+          localShellPath: '/dashboards/income/index.html',
+        },
+      ],
+    },
+  },
+}

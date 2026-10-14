@@ -1,0 +1,35 @@
+{
+  "name": "parks-tourism-portal",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "node scripts/check-data.mjs && vite build",
+    "build:static": "node scripts/check-data.mjs && vite build --mode static",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "check:data": "node scripts/check-data.mjs",
+    "start": "node server/index.js",
+    "cert": "mkdir -p .certs && if command -v mkcert >/dev/null 2>&1; then mkcert -key-file .certs/dev-key.pem -cert-file .certs/dev-cert.pem localhost 127.0.0.1 ::1; else echo 'mkcert not found -- falling back to self-signed. Chrome will warn AND refuse the service worker Experience Builder needs, so dashboards will fail. Install mkcert, run \"mkcert -install\", then rerun this.'; openssl req -x509 -newkey rsa:2048 -nodes -days 825 -keyout .certs/dev-key.pem -out .certs/dev-cert.pem -subj '/CN=localhost' -addext 'subjectAltName=DNS:localhost,IP:127.0.0.1'; fi",
+    "start:local": "node server/index.js --http-only"
+  },
+  "dependencies": {
+    "framer-motion": "^13.1.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.3"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "autoprefixer": "^10.5.4",
+    "jsdom": "^29.1.1",
+    "postcss": "^8.5.26",
+    "tailwindcss": "^3.4.19",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
+  }
+}

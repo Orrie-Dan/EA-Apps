@@ -1,0 +1,5 @@
+/portal/*  https://gis.wasac.rw/portal/:splat  200
+/server/*  https://gis.wasac.rw/server/:splat  200
+/sharing/*  https://gis.wasac.rw/sharing/:splat  200
+/arcgis/*  https://gis.wasac.rw/arcgis/:splat  200
+/*    /index.html   200

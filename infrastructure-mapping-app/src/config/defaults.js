@@ -1,0 +1,374 @@
+/**
+ * Bundled Runtime Config V1 defaults for Infrastructure Mapping (HARM-01).
+ * Authoritative runtime source is GET /api/v1/config/infrastructure-mapping;
+ * this document is the resilience fallback when the service is unavailable.
+ *
+ * Content migrated from existing src/data/config.js + ArcGIS item IDs from src/lib/access.js.
+ */
+export const DEFAULT_RUNTIME_CONFIG = {
+  "app": {
+    "name": "Infrastructure Mapping",
+    "shortName": "Infrastructure",
+    "description": "",
+    "eyebrow": "",
+    "homeTitle": "Infrastructure Mapping",
+    "homeLead": "Choose a module on the left, then open a solution. It will load in this pane.",
+    "tagline": "A central platform for utilities and settlements mapping.",
+    "hero": "/Login-infra.jpeg",
+    "documentTitle": "Infrastructure Mapping"
+  },
+  "branding": {
+    "favicon": "/favicon.png"
+  },
+  "organization": {
+    "name": "Rwanda Space Agency",
+    "legalName": "Government of the Republic of Rwanda",
+    "copyrightYear": 2026
+  },
+  "contact": {
+    "heading": "Contact",
+    "email": "",
+    "agency": "",
+    "phone": "",
+    "phoneLabel": ""
+  },
+  "footer": {
+    "blurb": "Supporting infrastructure planning and service delivery through reliable geospatial information.",
+    "quickLinks": [
+      {
+        "label": "Home",
+        "to": "/"
+      },
+      {
+        "label": "Electricity Network",
+        "to": "/module/country-infrastructure/app/electricity-mapping"
+      },
+      {
+        "label": "Kigali Water Network ",
+        "to": "/module/country-infrastructure/app/kigali-water-network-dashboard"
+      },
+      {
+        "label": "Upcountry Water Network ",
+        "to": "/module/country-infrastructure/app/upcountry-water-network-dashboard"
+      },
+      {
+        "label": "Delegated Water Network ",
+        "to": "/module/country-infrastructure/app/delegated-water-network-dashboard"
+      },
+      {
+        "label": "Water Network Analytics",
+        "to": "/module/country-infrastructure/app/water-network"
+      },
+      {
+        "label": "Telecom Network ",
+        "to": "/module/country-infrastructure/app/telecommunication"
+      },
+      {
+        "label": "Sanitation Infrastructure",
+        "to": "/module/country-infrastructure/app/water-sanitation"
+      },
+      {
+        "label": "Transport Accessibility",
+        "to": "/module/service-accessibility/app/transport-accessibility"
+      },
+      {
+        "label": "Electricity Accessibility",
+        "to": "/module/service-accessibility/app/electricity-accessibility"
+      },
+      {
+        "label": "Fiber Accessibility",
+        "to": "/module/service-accessibility/app/internet-accessibility"
+      },
+      {
+        "label": "Water Accessibility",
+        "to": "/module/service-accessibility/app/water-accessibility"
+      },
+      {
+        "label": "Informal Settlement Mapping and Monitoring",
+        "to": "/module/settlements-mapping/app/informal-settlement"
+      },
+      {
+        "label": "Rural settlement planning",
+        "to": "/module/settlements-mapping/app/rural-settlement"
+      },
+      {
+        "label": "Inspection",
+        "to": "/module/settlements-mapping/app/inspection"
+      },
+      {
+        "label": "Government Immovable Assets Mapping",
+        "to": "/module/government-assets/app/government-assets"
+      }
+    ]
+  },
+  "legal": {
+    "disclaimer": {
+      "title": "Data Disclaimer",
+      "body": [
+        "Mapping applications and related geospatial data are provided as-is for planning and operational use. Completeness, accuracy, and currency may vary by source and refresh cycle.",
+        "Users should verify critical decisions against authoritative records. Rwanda Space Agency and contributing institutions are not liable for decisions made solely on the basis of these maps."
+      ]
+    },
+    "privacy": {
+      "title": "Privacy",
+      "body": [
+        "This workspace does not collect sign-in credentials. Embedded maps may still load public GeoHub or partner portal content according to each application’s sharing settings.",
+        "Avoid entering personal credentials into third-party pages unless your institution requires it for a specific secured service."
+      ]
+    },
+    "terms": {
+      "title": "Terms of Use",
+      "body": [
+        "Use this workspace only for lawful, authorized purposes related to infrastructure mapping and institutional mandates in Rwanda.",
+        "Do not attempt to bypass access controls, scrape protected services, or redistribute proprietary content without permission."
+      ]
+    },
+    "accessibility": {
+      "title": "Accessibility",
+      "body": [
+        "This portal supports keyboard navigation for primary chrome (header, sidebar, and legal pages). Embedded mapping applications inherit accessibility features from their ArcGIS source apps.",
+        "If you encounter a barrier, contact your GeoHub administrator so the issue can be routed to the application owner."
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "country-infrastructure",
+      "name": "Country Infrastructure",
+      "icon": "zap",
+      "description": "National water, electricity, roads, and telecommunication infrastructure mapping.",
+      "image": "/infrastructure/Country infrasturcture.jpg",
+      "apps": [
+        {
+          "id": "electricity-mapping",
+          "name": "Electricity Network",
+          "description": "Electricity network mapping.",
+          "type": "Experience",
+          "image": "/infrastructure/Country infrasturcture.jpg",
+          "icon": "zap",
+          "kind": "dashboard",
+          "portalItemId": "ed7be680a68f4390995879f8f03ab0d9",
+          "portalHostKey": "reg"
+        },
+        {
+          "id": "kigali-water-network-dashboard",
+          "name": "Kigali Water Network ",
+          "description": "Kigali water network dashboard and indicators.",
+          "type": "Dashboard",
+          "image": "/infrastructure/Country infrasturcture.jpg",
+          "icon": "layers",
+          "kind": "dashboard",
+          "portalItemId": "753103c5542e4bcfb6522b24d645521c",
+          "portalHostKey": "wasac"
+        },
+        {
+          "id": "upcountry-water-network-dashboard",
+          "name": "Upcountry Water Network ",
+          "description": "Upcountry water network dashboard and indicators.",
+          "type": "Dashboard",
+          "image": "/infrastructure/Country infrasturcture.jpg",
+          "icon": "layers",
+          "kind": "dashboard",
+          "portalItemId": "2d937ac2eaf1457f82682914e5ec1813",
+          "portalHostKey": "wasac"
+        },
+        {
+          "id": "delegated-water-network-dashboard",
+          "name": "Delegated Water Network ",
+          "description": "Delegated water network dashboard and indicators.",
+          "type": "Dashboard",
+          "image": "/infrastructure/Country infrasturcture.jpg",
+          "icon": "layers",
+          "kind": "dashboard",
+          "portalItemId": "1d0d28f84bb64e55a5be670b6eef0bee",
+          "portalHostKey": "wasac"
+        },
+        {
+          "id": "water-network",
+          "name": "Water Network Analytics",
+          "description": "Water network mapping and operations.",
+          "type": "Experience",
+          "image": "/infrastructure/Country infrasturcture.jpg",
+          "icon": "droplets",
+          "kind": "experience",
+          "portalItemId": "5fc41bffcdcb458b90de05e1a6a05c30",
+          "portalHostKey": "wasac",
+          "localShellPath": "/portal/apps/experiencebuilder/experience/?id=5fc41bffcdcb458b90de05e1a6a05c30"
+        },
+        {
+          "id": "telecommunication",
+          "name": "Telecom Network ",
+          "description": "Fiber network dashboard and indicators.",
+          "type": "Dashboard",
+          "image": "/infrastructure/Country infrasturcture.jpg",
+          "icon": "radio",
+          "kind": "dashboard",
+          "portalItemId": "a40ef5ab66d3491da1a05fd3578d5b9f",
+          "portalHostKey": "rura"
+        },
+        {
+          "id": "water-sanitation",
+          "name": "Sanitation Infrastructure",
+          "description": "Water sanitation dashboard and mapping.",
+          "type": "Dashboard",
+          "image": "/infrastructure/Country infrasturcture.jpg",
+          "icon": "waves",
+          "kind": "dashboard",
+          "portalItemId": "769e3416151741baaf64351884cd04b1",
+          "portalHostKey": "rura"
+        }
+      ]
+    },
+    {
+      "id": "service-accessibility",
+      "name": "Infrastructure Service Accessibility",
+      "icon": "droplets",
+      "description": "Access to electricity, water, telecom, and related services by location.",
+      "image": "/infrastructure/Infrastructure Service Accessibility.jpeg",
+      "apps": [
+        {
+          "id": "transport-accessibility",
+          "name": "Transport Accessibility",
+          "description": "Transport accessibility mapping.",
+          "type": "Dashboard",
+          "image": "/infrastructure/Infrastructure Service Accessibility.jpeg",
+          "icon": "route",
+          "kind": "dashboard",
+          "portalItemId": "0a331d36df3f4e30998b23a027454e5d",
+          "portalHostKey": "gh"
+        },
+        {
+          "id": "electricity-accessibility",
+          "name": "Electricity Accessibility",
+          "description": "Electricity accessibility mapping.",
+          "type": "Dashboard",
+          "image": "/infrastructure/Infrastructure Service Accessibility.jpeg",
+          "icon": "zap",
+          "kind": "dashboard",
+          "portalItemId": "cf44eb1a0b8d4e819fa963e5fbc013e4",
+          "portalHostKey": "gh"
+        },
+        {
+          "id": "internet-accessibility",
+          "name": "Fiber Accessibility",
+          "description": "Internet accessibility mapping.",
+          "type": "Dashboard",
+          "image": "/infrastructure/Infrastructure Service Accessibility.jpeg",
+          "icon": "radio",
+          "kind": "dashboard",
+          "portalItemId": "f0a5095875564185a70eb06f352b8627",
+          "portalHostKey": "gh"
+        },
+        {
+          "id": "water-accessibility",
+          "name": "Water Accessibility",
+          "description": "Water accessibility mapping.",
+          "type": "Dashboard",
+          "image": "/infrastructure/Infrastructure Service Accessibility.jpeg",
+          "icon": "droplets",
+          "kind": "dashboard",
+          "portalItemId": "4013dcf504ad450289a6a0570e89ceb9",
+          "portalHostKey": "gh"
+        }
+      ]
+    },
+    {
+      "id": "settlements-mapping",
+      "name": "Urbanization, Housing, and Settlements",
+      "icon": "home",
+      "description": "Informal, rural, and urban settlement mapping to support planning and monitoring.",
+      "image": "/infrastructure/Settlements Mapping.jpg",
+      "apps": [
+        {
+          "id": "informal-settlement",
+          "name": "Informal Settlement Mapping and Monitoring",
+          "description": "Informal settlements, extent, and monitoring over time.",
+          "type": "Dashboard",
+          "image": "/infrastructure/Informal Settlement Mapping and Monitoring.jpeg",
+          "icon": "home",
+          "kind": "dashboard",
+          "portalItemId": "7cc82c4014c4402c93bb3920e05f3d52",
+          "portalHostKey": "gh"
+        },
+        {
+          "id": "rural-settlement",
+          "name": "Rural settlement planning",
+          "description": "Rural settlement layout and planning support.",
+          "type": "Dashboard",
+          "image": "/infrastructure/Rural settlement planning.jpg",
+          "icon": "trees",
+          "kind": "dashboard",
+          "portalItemId": "e7e0645fff854cc9960c4fb26605f0b2",
+          "portalHostKey": "gh"
+        },
+        {
+          "id": "inspection",
+          "name": "Inspection",
+          "description": "Inspection mapping and monitoring.",
+          "type": "Dashboard",
+          "image": "/infrastructure/Settlements Mapping.jpg",
+          "icon": "layers",
+          "kind": "external",
+          "externalUrl": "https://inspection.space.gov.rw/"
+        }
+      ]
+    },
+    {
+      "id": "government-assets",
+      "name": "Government Immovable Assets",
+      "icon": "landmark",
+      "description": "Mapping of government buildings and immovable assets.",
+      "image": "/infrastructure/Government Immovable Assets Mapping.png",
+      "apps": [
+        {
+          "id": "government-assets",
+          "name": "Government Immovable Assets Mapping",
+          "description": "Mapping of government buildings and immovable assets.",
+          "type": "Dashboard",
+          "image": "/infrastructure/Government Immovable Assets Mapping.png",
+          "icon": "landmark",
+          "kind": "dashboard",
+          "portalItemId": "bcf0f52938b74b6b95c65b7411fc61e5",
+          "portalHostKey": "gh"
+        }
+      ]
+    }
+  ],
+  "extensions": {
+    "infrastructure-mapping": {
+      "moduleFeatures": {
+        "country-infrastructure": [
+          "Water network mapping and dashboards.",
+          "Water sanitation mapping.",
+          "Electricity, roads, and telecommunication mapping."
+        ],
+        "service-accessibility": [
+          "Transport accessibility.",
+          "Electricity, internet, and water accessibility."
+        ],
+        "settlements-mapping": [
+          "Informal settlement extent and monitoring.",
+          "Rural settlement planning support.",
+          "Urbanization and urban growth mapping."
+        ],
+        "government-assets": [
+          "Government buildings and immovable assets inventory."
+        ]
+      },
+      "stagedApps": [
+        {
+          "id": "urbanization",
+          "name": "Urbanization Mapping",
+          "note": "In catalog without APP_EMBED_URL; unpublished until portal item known.",
+          "image": "/infrastructure/Urbanization Mapping.jpeg",
+          "icon": "building-2"
+        }
+      ],
+      "portalMirror": {
+        "experienceAppId": "water-network",
+        "mirrorPathPrefix": "/portal",
+        "upstreamHostKey": "wasac"
+      }
+    }
+  }
+}

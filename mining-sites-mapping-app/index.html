@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      No favicon, deliberately. Without this the browser still requests
+      /favicon.ico, and the SPA fallback in server/index.js answers unknown
+      paths with index.html — so the tab showed HTML decoded as an icon.
+      An empty data: URI satisfies the request without a network round trip.
+    -->
+    <link rel="icon" href="data:," />
+    <title>Mining Sites Mapping — Rwanda Space Agency</title>
+    <meta name="description" content="Sites, licences, inspections and impact zones." />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

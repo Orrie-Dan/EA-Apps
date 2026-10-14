@@ -1,0 +1,170 @@
+/**
+ * Bundled Runtime Config V1 defaults for Agriculture and Livestock Management (HARM-01).
+ * Authoritative runtime source is GET /api/v1/config/agriculture-livestock;
+ * this document is the resilience fallback when the service is unavailable.
+ */
+import { srcSet } from './images.js'
+
+export const DEFAULT_RUNTIME_CONFIG = {
+  "app": {
+    "name": "Agriculture and Livestock Management",
+    "shortName": "Agriculture & Livestock",
+    "description": "",
+    "eyebrow": "National Geoportal",
+    "homeTitle": "Agriculture and Livestock Management",
+    "homeLead": "Choose a module on the left, then open a solution.",
+    "tagline": "Parcel-level soil, crop health, livestock populations and export supply chains — mapped for the whole of Rwanda.",
+    "hero": srcSet('hero-1').src,
+    "documentTitle": "Agriculture and Livestock Management",
+    "identity": {
+      "name": "GeoHub",
+      "host": "gh.space.gov.rw"
+    }
+  },
+  "branding": {
+    "favicon": "/favicon.svg"
+  },
+  "organization": {
+    "name": "Rwanda Space Agency",
+    "legalName": "Government of the Republic of Rwanda",
+    "copyrightYear": 2026
+  },
+  "contact": {
+    "heading": "Contact",
+    "email": "",
+    "agency": "",
+    "phone": "",
+    "phoneLabel": ""
+  },
+  "footer": {
+    "blurb": "Mapping applications for the agriculture and livestock sector, served from the national GeoHub and opened inside this workspace under your own account.",
+    "brandBlurb": "Mapping applications for the agriculture and livestock sector, served from the national GeoHub and opened inside this workspace under your own account.",
+    "quickLinks": []
+  },
+  "legal": {
+    "disclaimer": {
+      "title": "Data Disclaimer",
+      "body": [
+        "The mapping applications published on {{app.name}} are provided as-is. Layers are compiled from field surveys, satellite observation and administrative records held by partner institutions, and each carries the accuracy and the collection date of its own source.",
+        "Nothing shown here establishes a boundary, a title or an entitlement. Confirm any figure against the responsible institution before relying on it for a decision, a transaction or a legal purpose."
+      ]
+    },
+    "privacy": {
+      "title": "Privacy",
+      "body": [
+        "Signing in authenticates you against your own GeoHub account. This workspace keeps a session cookie so the applications you open can load under that account; it never stores your password, and your GeoHub token stays on the server rather than in your browser.",
+        "Do not share your password or leave a signed-in session open on a shared machine. Sign out when you are finished, and report a suspected account compromise to your GeoHub administrator."
+      ]
+    },
+    "terms": {
+      "title": "Terms of Use",
+      "body": [
+        "Access is granted for lawful use in support of agriculture and livestock work in Rwanda. Do not use the applications to harvest data in bulk, to attempt access to layers your account has not been granted, or in any way that disrupts service for other users.",
+        "Content remains the property of the Rwanda Space Agency and the institutions that supplied it. Reuse and redistribution require the permission of the data owner."
+      ]
+    },
+    "accessibility": {
+      "title": "Accessibility",
+      "body": [
+        "This workspace can be operated from the keyboard: the collapse control, the modules list and every solution link are reachable by tab order and carry a visible focus ring. Colour is never the only signal, and motion respects your system reduced-motion setting.",
+        "Each mapping application is a separate product with its own accessibility characteristics, which this workspace cannot change. If a map is unusable for you, tell us which application and what happened so we can raise it with the team that publishes it."
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "land-profiling",
+      "name": "Agricultural Land Profiling",
+      "shortName": "Land Profiling",
+      "icon": "parcel",
+      "description": "Parcel-level soil, terrain and crop suitability.",
+      "image": srcSet('land-profiling-card').src,
+      "accent": "#E0A54A",
+      "apps": [
+        {
+          "id": "soil-information-mapping",
+          "name": "Soil Information Mapping",
+          "shortName": "Soil Information",
+          "footerLabel": "Soil Information Mapping",
+          "type": "Dashboard",
+          "icon": "layers",
+          "year": "Year 1",
+          "kind": "dashboard",
+          "portalItemId": "bb2735551a6648a1ba5ede6655b1212c",
+          "portalHostKey": "gh"
+        },
+        {
+          "id": "land-profiling-crops-suitability",
+          "name": "Agriculture Land Profiling and Crops Suitability",
+          "shortName": "Crops Suitability",
+          "footerLabel": "Agriculture Land Profiling and Crops Suitability",
+          "type": "Dashboard",
+          "icon": "parcel",
+          "year": "Year 1",
+          "kind": "dashboard",
+          "portalItemId": "b25b3af776574dc8a7f521af5e0f3487",
+          "portalHostKey": "gh"
+        }
+      ]
+    },
+    {
+      "id": "livestock",
+      "name": "Livestock Information Mapping",
+      "shortName": "Livestock",
+      "icon": "livestock",
+      "description": "Species populations, density and production output.",
+      "image": srcSet('livestock-card').src,
+      "accent": "#F19BB4",
+      "apps": [
+        {
+          "id": "animal-resources-distribution",
+          "name": "Animal Resources Distribution Mapping",
+          "shortName": "Animal Resources",
+          "footerLabel": "Animal Resources Distribution Mapping",
+          "type": "Dashboard",
+          "icon": "livestock",
+          "year": "Year 1",
+          "kind": "dashboard",
+          "portalItemId": "438e024e293142ca996a1e7ab3afa78c",
+          "portalHostKey": "gh"
+        }
+      ]
+    }
+  ],
+  "extensions": {
+    "agriculture-livestock": {
+      "stagedApps": [
+        {
+          "id": "farming-inputs-distribution",
+          "name": "Farming Inputs Distribution Mapping",
+          "shortName": "Inputs Distribution",
+          "moduleId": "inputs",
+          "kind": "experience",
+          "portalItemId": "7c6fcc2f06104a07a5e20043c5c16536",
+          "portalHostKey": "gh",
+          "note": "Withdrawn from published workspace; retained for Admin staging."
+        },
+        {
+          "id": "crops-health-monitoring",
+          "name": "Crops Health Monitoring and Mapping",
+          "shortName": "Crops Health",
+          "moduleId": "crop-monitoring",
+          "kind": "experience",
+          "portalItemId": "09c89ab217e54c829b691069c2049b79",
+          "portalHostKey": "gh",
+          "note": "Withdrawn from published workspace; retained for Admin staging."
+        },
+        {
+          "id": "export-crops-supply-chain",
+          "name": "Export Crops Supply Chain Mapping",
+          "shortName": "Export Supply Chain",
+          "moduleId": "value-chain",
+          "kind": "external",
+          "externalUrl": "https://gh.space.gov.rw/portal/apps/knowledge-studio/main?id=06b93d69b902438e9f70c2cbc8e676b3",
+          "portalHostKey": "gh",
+          "note": "Knowledge Studio item; withdrawn from published workspace."
+        }
+      ]
+    }
+  }
+}

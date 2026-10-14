@@ -1,0 +1,91 @@
+{
+    "app":  {
+                "name":  "Education Mapping",
+                "shortName":  "Education",
+                "description":  "Education facilities and planning workspace.",
+                "eyebrow":  "Education workspace",
+                "homeTitle":  "Education Mapping",
+                "homeLead":  "Choose a module on the left, then open an education application.",
+                "tagline":  "Plan and monitor education services with geospatial insight.",
+                "hero":  "/assets/education-hero.jpg",
+                "documentTitle":  "Education Mapping"
+            },
+    "organization":  {
+                         "name":  "GeoHub Rwanda",
+                         "legalName":  "Rwanda Space Agency",
+                         "copyrightYear":  2026
+                     },
+    "contact":  {
+                    "heading":  "Contact",
+                    "email":  "geohub-examples@example.rw",
+                    "agency":  "Example coordinating agency",
+                    "phone":  "",
+                    "phoneLabel":  ""
+                },
+    "footer":  {
+                   "blurb":  "Supporting education planning through reliable geospatial information."
+               },
+    "legal":  {
+                  "disclaimer":  {
+                                     "title":  "Data Disclaimer",
+                                     "body":  [
+                                                  "Education Mapping publishes geospatial information for planning and public awareness.",
+                                                  "Always confirm critical decisions with the responsible institution."
+                                              ]
+                                 },
+                  "privacy":  {
+                                  "title":  "Privacy",
+                                  "body":  [
+                                               "This portal uses your account to sign you in and to load applications you are authorised to view."
+                                           ]
+                              },
+                  "terms":  {
+                                "title":  "Terms of Use",
+                                "body":  [
+                                             "Use this portal for official and lawful purposes only.",
+                                             "Content remains the property of the Government of the Republic of Rwanda and its partner institutions."
+                                         ]
+                            },
+                  "accessibility":  {
+                                        "title":  "Accessibility",
+                                        "body":  [
+                                                     "Pages are built for keyboard use and common assistive technologies."
+                                                 ]
+                                    }
+              },
+    "modules":  [
+                    {
+                        "id":  "schools",
+                        "name":  "Schools Mapping",
+                        "icon":  "graduation-cap",
+                        "description":  "School locations and profiles for planning.",
+                        "image":  "/assets/schools-module.jpg",
+                        "apps":  [
+                                     {
+                                         "id":  "school-distribution",
+                                         "name":  "School Distribution Dashboard",
+                                         "footerLabel":  "School Distribution",
+                                         "description":  "Explore school distribution and coverage.",
+                                         "type":  "Dashboard",
+                                         "image":  "/assets/school-distribution.jpg",
+                                         "icon":  "chart",
+                                         "kind":  "dashboard",
+                                         "portalItemId":  "00000000000000000000000000000001",
+                                         "portalHostKey":  "gh"
+                                     },
+                                     {
+                                         "id":  "school-experience",
+                                         "name":  "School Explorer",
+                                         "footerLabel":  "School Explorer",
+                                         "description":  "Interactive experience for school exploration.",
+                                         "type":  "Experience",
+                                         "image":  "/assets/school-experience.jpg",
+                                         "icon":  "map",
+                                         "kind":  "experience",
+                                         "portalItemId":  "00000000000000000000000000000002",
+                                         "portalHostKey":  "gh"
+                                     }
+                                 ]
+                    }
+                ]
+}

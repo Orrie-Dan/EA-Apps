@@ -1,0 +1,939 @@
+/* Self-hosted so the portal makes no font CDN calls and works fully offline. */
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-Variable.woff2') format('woff2-variations');
+  font-weight: 400 800;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Basalt and copper on field paper.
+ *
+ * The portal's whole job is to frame ArcGIS dashboards, and every one of them
+ * renders on white — so the content canvas stays paper and the frame sits
+ * flush. The chrome around it is volcanic stone: warm near-black, mineral
+ * rather than green, which is what separates this portal from its sibling.
+ *
+ * Copper is the single primary — spinner, sign-in, links, focus. Module
+ * identity comes from the accents in `src/data/modules.js`, which are
+ * contrast-guarded by `scripts/check-data.mjs`; `liftForDarkGround()` in
+ * `src/data/config.js` raises their lightness for the dark rail without
+ * inventing a second palette.
+ */
+/* Shared typography — values come from Runtime Config branding.typography
+   (shared-theme default + app override, applied by applyTypography.js).
+   These are the Infrastructure values used when the config sets nothing. */
+:root {
+  --type-font-family: Inter, system-ui, sans-serif;
+  --type-body-size: 16px;
+  --type-body-line-height: 1.55;
+  --type-sidebar-brand-size: 12.5px;
+  --type-sidebar-brand-weight: 800;
+  --type-nav-group-size: 12px;
+  --type-nav-group-weight: 600;
+  --type-nav-item-size: 12px;
+  --type-nav-item-weight: 400;
+  --type-nav-item-active-weight: 600;
+  --type-sidebar-action-size: 13px;
+  --type-sidebar-action-weight: 600;
+  --type-eyebrow-size: 12px;
+  --type-eyebrow-weight: 500;
+  --type-button-size: 15px;
+  --type-button-weight: 600;
+  --type-login-title-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  --type-login-title-weight: 700;
+}
+
+:root {
+  --paper: #fbfaf7;
+  --surface: #ffffff;
+  --raised: #f4f2ed;
+  --hairline: #e4e1da;
+  --ink: #12100e;
+  --ink-2: #3a3733;
+  --ink-3: #6e6a63;
+  --dim: #8c877e;
+  --copper: #c97a45;
+  --copper-600: #a96336;
+  --copper-50: #f8f0e9;
+  --danger: #b3261e;
+  /*
+   * Chrome is light, like the content it frames.
+   *
+   * The chrome was basalt so the sidebar, the pane and the ArcGIS frame would
+   * not all sit within a few percent of each other. On a light shell that
+   * problem is real again, and it is solved by a TONAL STEP plus a hairline
+   * rather than by darkness: the sidebar and the footer sit on paper
+   * (#fbfaf7), the dashboard canvas and the login card are pure white, and a
+   * 1px --chrome-hairline draws the boundary. Paper against white is only
+   * 1.04:1, so the hairline is doing the work and must never be removed.
+   *
+   * The token NAMES are unchanged. Every rule in this file already speaks in
+   * them, so the shell flips ground by redefining nine values here rather than
+   * by rewriting forty rules.
+   */
+  --chrome: #fbfaf7;
+  --chrome-2: #fbfaf7;
+  --chrome-hairline: #e4e1da;
+  --chrome-raised: #f0ede7;
+  /* The active row: one step darker than hover, so the two never read alike. */
+  --chrome-selected: #e7e3da;
+  --chrome-text: #12100e;
+  --chrome-text-2: #3a3733;
+  --chrome-dim: #6e6a63;
+  /* Copper, darkened until it clears 4.5:1 on paper — plain --copper is 3.17:1
+     there and --copper-600 only 4.45:1, both short of the bar. */
+  --chrome-accent: #a45f33;
+  /* On paper the ordinary danger red reads fine again (6.26:1), so the lifted
+     variant the dark card needed is gone. */
+  --chrome-danger: #b3261e;
+  /* White text sits on the hero photographs, never on the chrome. */
+  --on-photo: rgba(255, 255, 255, 0.88);
+  --on-photo-accent: #e8b98f;
+  --contour-art: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%201200%20620%22%3E%3Cg%20fill=%22none%22%20stroke=%22%23fff%22%20stroke-width=%221.3%22%3E%3Cpath%20d=%22M0,-20.0L50,-4.3L100,8.6L150,16.4L200,18.1L250,14.1L300,6.0L350,-3.9L400,-13.1L450,-19.6L500,-22.6L550,-22.3L600,-20.0L650,-17.7L700,-17.4L750,-20.4L800,-26.9L850,-36.1L900,-46.0L950,-54.1L1000,-58.1L1050,-56.4L1100,-48.6L1150,-35.7L1200,-20.0%22/%3E%3Cpath%20d=%22M0,50.9L50,61.7L100,67.2L150,67.1L200,62.3L250,54.5L300,45.6L350,37.5L400,31.2L450,27.1L500,24.6L550,22.4L600,19.3L650,14.3L700,7.2L750,-1.5L800,-10.1L850,-16.9L900,-19.8L950,-17.5L1000,-9.6L1050,3.2L1100,19.3L1150,36.0L1200,50.9%22/%3E%3Cpath%20d=%22M0,107.4L50,111.3L100,111.3L150,107.9L200,102.1L250,95.0L300,87.3L350,79.6L400,72.1L450,64.8L500,57.4L550,49.7L600,42.0L650,34.7L700,28.7L750,24.9L800,24.5L850,27.9L900,35.3L950,46.4L1000,59.9L1050,74.3L1100,88.1L1150,99.5L1200,107.4%22/%3E%3Cpath%20d=%22M0,152.6L50,151.4L100,147.7L150,141.9L200,134.9L250,127.1L300,119.0L350,110.7L400,102.5L450,94.4L500,86.8L550,80.1L600,74.9L650,71.9L700,71.7L750,74.7L800,81.0L850,90.2L900,101.5L950,114.0L1000,126.2L1050,137.0L1100,145.4L1150,150.6L1200,152.6%22/%3E%3Cpath%20d=%22M0,182.6L50,176.3L100,170.1L150,164.6L200,160.2L250,156.4L300,152.8L350,148.6L400,143.4L450,137.3L500,130.9L550,125.2L600,121.5L650,121.0L700,124.3L750,131.5L800,142.0L850,154.4L900,167.0L950,178.1L1000,186.3L1050,190.6L1100,190.9L1150,187.9L1200,182.6%22/%3E%3Cpath%20d=%22M0,200.3L50,196.8L100,196.6L150,198.8L200,201.7L250,203.6L300,202.8L350,198.7L400,191.7L450,183.1L500,175.0L550,169.5L600,168.5L650,172.8L700,182.0L750,194.5L800,208.0L850,220.1L900,228.4L950,231.7L1000,229.7L1050,223.6L1100,215.3L1150,206.8L1200,200.3%22/%3E%3Cpath%20d=%22M0,235.5L50,239.9L100,245.9L150,251.1L200,253.7L250,252.2L300,246.7L350,238.4L400,229.1L450,221.4L500,217.6L550,218.8L600,225.2L650,235.6L700,247.9L750,259.3L800,267.4L850,270.6L900,268.5L950,262.1L1000,253.1L1050,244.1L1100,237.4L1150,234.4L1200,235.5%22/%3E%3Cpath%20d=%22M0,288.1L50,291.5L100,293.3L150,292.7L200,289.4L250,283.9L300,277.5L350,271.9L400,268.6L450,268.7L500,272.6L550,279.6L600,288.3L650,297.0L700,303.8L750,307.4L800,307.3L850,303.8L900,298.1L950,291.7L1000,286.3L1050,283.1L1100,282.7L1150,284.7L1200,288.1%22/%3E%3Cpath%20d=%22M0,329.2L50,326.8L100,323.7L150,320.2L200,316.8L250,314.4L300,313.5L350,314.8L400,318.3L450,323.7L500,330.3L550,337.1L600,343.3L650,347.8L700,350.1L750,350.3L800,348.6L850,345.6L900,342.0L950,338.7L1000,335.9L1050,333.9L1100,332.3L1150,330.9L1200,329.2%22/%3E%3Cpath%20d=%22M0,359.9L50,355.2L100,351.3L150,348.8L200,348.3L250,350.4L300,355.2L350,362.3L400,371.1L450,380.4L500,389.2L550,396.4L600,401.3L650,403.6L700,403.3L750,400.9L800,397.0L850,392.4L900,387.5L950,382.8L1000,378.3L1050,373.9L1100,369.5L1150,364.8L1200,359.9%22/%3E%3Cpath%20d=%22M0,388.9L50,382.4L100,378.8L150,379.3L200,384.5L250,394.4L300,407.8L350,422.9L400,437.6L450,449.8L500,458.0L550,461.4L600,460.2L650,455.4L700,448.3L750,440.6L800,433.5L850,427.7L900,423.2L950,419.3L1000,415.3L1050,410.3L1100,403.9L1150,396.5L1200,388.9%22/%3E%3Cpath%20d=%22M0,415.5L50,412.8L100,416.5L150,426.9L200,442.9L250,462.2L300,481.7L350,498.5L400,510.1L450,515.0L500,513.5L550,506.6L600,496.7L650,486.2L700,477.0L750,470.4L800,466.5L850,464.2L900,462.1L950,458.5L1000,452.4L1050,443.6L1100,433.2L1150,423.0L1200,415.5%22/%3E%3Cpath%20d=%22M0,461.0L50,469.1L100,483.1L150,500.9L200,519.8L250,536.9L300,549.5L350,556.0L400,556.1L450,550.7L500,541.8L550,531.6L600,522.3L650,515.3L700,511.0L750,508.6L800,506.9L850,504.1L900,499.1L950,491.5L1000,481.8L1050,471.7L1100,463.5L1150,459.3L1200,461.0%22/%3E%3Cpath%20d=%22M0,531.4L50,543.4L100,556.6L150,569.1L200,579.2L250,585.6L300,587.7L350,586.0L400,581.2L450,574.8L500,568.1L550,562.2L600,557.5L650,554.0L700,551.0L750,547.7L800,543.4L850,537.8L900,531.3L950,524.7L1000,519.2L1050,516.4L1100,517.3L1150,522.4L1200,531.4%22/%3E%3Cpath%20d=%22M0,596.5L50,603.8L100,610.2L150,614.8L200,617.3L250,617.6L300,616.0L350,613.1L400,609.4L450,605.7L500,602.1L550,598.8L600,595.8L650,592.8L700,589.5L750,585.9L800,582.1L850,578.5L900,575.7L950,574.4L1000,574.9L1050,577.7L1100,582.6L1150,589.1L1200,596.5%22/%3E%3C/g%3E%3C/svg%3E");
+  color-scheme: light;
+}
+
+/* ---------- base ---------- */
+
+html,
+body,
+#root {
+  height: 100%;
+  min-height: 100dvh;
+}
+
+body {
+  margin: 0;
+  font-family: var(--type-font-family);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line-height);
+  color: var(--ink-2);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--copper);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.eyebrow {
+  font-size: var(--type-eyebrow-size);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--copper);
+  margin: 0;
+  font-weight: var(--type-eyebrow-weight);
+}
+/* Over a photograph, where copper would disappear into the scrim. */
+.eyebrow.light {
+  color: var(--on-photo-accent);
+}
+
+/* ---------- contours ---------- */
+
+/*
+ * Elevation lines, the way a topographic sheet draws terrain — the portal maps
+ * land, so the background motif is cartographic rather than decorative. Three
+ * concentric sets at different origins and spacings read as overlapping relief
+ * instead of as targets. Static: nothing here should move behind text.
+ *
+ * `--contour-ink` is overridden per surface, because this sits on both pale
+ * chrome and dark-scrimmed photographs.
+ */
+.contours {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  --contour-ink: rgba(18, 16, 14, 0.07);
+  /*
+   * Masked, not drawn: the artwork is white strokes on transparent and the
+   * colour comes from `--contour-ink`, so one motif serves both the pale chrome
+   * and the dark-scrimmed photographs. A background-image could not take a
+   * per-surface colour.
+   *
+   * `--contour-art` is a data URI on :root. It must carry no raw quotes or
+   * spaces — either would close the url() token and the stylesheet would not
+   * parse.
+   */
+  background-color: var(--contour-ink);
+  -webkit-mask-image: var(--contour-art);
+  mask-image: var(--contour-art);
+  -webkit-mask-size: 1200px 620px;
+  mask-size: 1200px 620px;
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+}
+
+/* ---------- spinners ---------- */
+
+.boot-screen {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(251, 250, 247, 0.9);
+  backdrop-filter: blur(8px);
+  z-index: 90;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 3px solid rgba(201, 122, 69, 0.24);
+  border-top-color: var(--copper);
+  animation: spin 0.9s linear infinite;
+}
+
+.btn-spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- buttons ---------- */
+
+.btn-primary {
+  width: 100%;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 0;
+  border-radius: 10px;
+  color: #ffffff;
+  font-weight: var(--type-button-weight);
+  background: var(--copper);
+  transition: background 0.15s ease;
+  font-size: var(--type-button-size);
+}
+.btn-primary:hover:not(:disabled) { background: var(--copper-600); }
+.btn-primary:disabled { opacity: 0.65; cursor: default; }
+
+.linkbtn {
+  background: none;
+  border: 0;
+  padding: 4px 2px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--chrome-accent);
+  transition: color 0.15s ease;
+}
+.linkbtn:hover { color: var(--ink); }
+
+/* ---------- shell ---------- */
+
+.shell {
+  background: var(--paper);
+}
+
+.shell--workspace {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.shell--legal {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.shell--workspace .main {
+  display: flex; /* required — otherwise the workspace will not stretch */
+  flex: 1;
+  min-height: 0;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.shell--legal .main { flex: 1; }
+
+/* ---------- workspace ---------- */
+
+.workspace {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+}
+
+.workspace-sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  height: 100%;
+  align-self: stretch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--chrome-2);
+  border-right: 1px solid var(--chrome-hairline);
+  transition: width 0.22s ease, opacity 0.22s ease, padding 0.22s ease;
+}
+
+.workspace.is-nav-closed .workspace-sidebar {
+  width: 0;
+  border-right-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.workspace-pane,
+.viewer.viewer--pane {
+  flex: 1;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.workspace-pane { background: var(--paper); }
+
+.workspace-scrim { display: none; }
+
+/*
+ * A pull tab on the left edge, not a floating button in the corner: every
+ * embedded ArcGIS app puts its own title bar across the top and its
+ * attribution across the bottom, so a corner button sits on top of one or the
+ * other. Vertically centred, it clears both.
+ */
+.workspace-opener {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 25;
+  width: 24px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 0 9px 9px 0;
+  background: var(--surface);
+  /* Ink, like every icon in the sidebar it reopens. */
+  color: var(--chrome-text);
+  box-shadow: 2px 0 12px rgba(12, 11, 10, 0.3);
+  transition: width 0.15s ease, background 0.15s ease;
+}
+.workspace-opener:hover { width: 30px; background: var(--chrome-raised); }
+
+.app-frame {
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+  border: 0;
+  /* The dashboards render on white; matching it means no flash of another
+     colour while the frame loads. */
+  background: var(--surface);
+}
+
+/* ---------- sidebar content ---------- */
+
+/*
+ * One sidebar layout for every portal: a brand badge beside the portal's name,
+ * headings with their own icon tile, rows that light up as a filled pill, and
+ * the signed-in user above a Logout row.
+ *
+ * `--brand-accent` (text-grade, 4.5:1 on white) and `--brand-tint` (washes
+ * only) are set on the sidebar by the component from the same values the login
+ * uses, so the colour follows each portal without a per-portal rule. There are
+ * no rails: separation comes from spacing and the heading tiles.
+ */
+.workspace-sidebar {
+  --brand-accent: var(--chrome-accent);
+  --brand-tint: var(--brand-accent);
+  --brand-soft: color-mix(in srgb, var(--brand-tint) 30%, #ffffff);
+  --brand-hover: color-mix(in srgb, var(--brand-tint) 10%, #ffffff);
+  /* The selected nav row, as in the infrastructure sidebar: a pale wash of the
+     brand with the label in the brand's own (slightly deepened) ink. */
+  --brand-active-fill: color-mix(in srgb, var(--brand-tint) 16%, #ffffff);
+  --brand-active-text: color-mix(in srgb, var(--brand-accent) 88%, #000000);
+  background: #ffffff;
+}
+
+.sidebar__top {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 12px 14px 14px;
+  border-bottom: 1px solid var(--chrome-hairline);
+}
+
+.sidebar__brand {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.sidebar__badge {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  color: #ffffff;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--brand-tint) 70%, var(--brand-accent)),
+    var(--brand-accent)
+  );
+  box-shadow: 0 4px 10px color-mix(in srgb, var(--brand-accent) 24%, transparent);
+}
+.sidebar__badge svg { stroke-width: 2.1; }
+
+.sidebar__name {
+  font-size: var(--type-sidebar-brand-size);
+  font-weight: var(--type-sidebar-brand-weight);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--brand-accent);
+  text-wrap: balance;
+}
+
+.sidebar__collapse {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  border: 1px solid var(--chrome-hairline);
+  background: #ffffff;
+  color: var(--brand-accent);
+  box-shadow: 0 1px 2px rgba(18, 16, 14, 0.05);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.sidebar__collapse:hover {
+  border-color: var(--brand-accent);
+  background: var(--brand-hover);
+}
+
+/* Only the list scrolls; the brand and the account stay put. */
+.sidebar__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 18px 12px 20px;
+}
+
+.navsection {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+/* Its groups are the headings here, so they sit as far apart as modules do. */
+.navsection--untitled { gap: 22px; }
+
+/* A heading: its own white tile, then the name in bold. */
+.navhead {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 4px 4px;
+}
+.navhead__tile {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  border: 1px solid var(--chrome-hairline);
+  background: #ffffff;
+  color: var(--brand-accent);
+  box-shadow: 0 1px 3px rgba(18, 16, 14, 0.06);
+}
+.navhead__title {
+  font-size: var(--type-nav-group-size);
+  font-weight: var(--type-nav-group-weight);
+  line-height: 1.3;
+  color: var(--chrome-text);
+  text-wrap: balance;
+}
+
+/* A group inside a module, where the module already holds the heading. */
+.navsub {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 2px 8px 6px 14px;
+  font-size: var(--type-nav-group-size);
+  font-weight: var(--type-nav-group-weight);
+  line-height: 1.35;
+  color: var(--chrome-text-2);
+}
+.navsub svg { flex-shrink: 0; margin-top: 1px; color: var(--brand-accent); }
+
+.modlist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.modlist--nested { padding-left: 10px; }
+
+/* Rows wrap rather than truncate: the full application names are long. */
+.modlist__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: 10px;
+  font-size: var(--type-nav-item-size);
+  line-height: 16px;
+  color: var(--chrome-text-2);
+  transition: background 0.15s ease, color 0.15s ease;
+  font-weight: var(--type-nav-item-weight);
+}
+.modlist__item span {
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+.modlist__item svg { flex-shrink: 0; margin-top: 1px; color: var(--brand-accent); }
+.modlist__item:hover { background: #f8fafc; color: var(--brand-active-text); }
+.modlist__item.is-active {
+  background: var(--brand-active-fill);
+  color: var(--brand-active-text);
+  font-weight: var(--type-nav-item-active-weight);
+}
+
+/*
+ * A dashboard's data collection form sits one step further in and reads
+ * quieter than the dashboard it feeds; it still lights up like any row.
+ */
+.modlist--form {
+  padding: 2px 0 0 30px;
+  gap: 0;
+}
+.modlist__item--form {
+  padding: 6px 10px;
+  font-size: var(--type-nav-item-size);
+  color: var(--chrome-dim);
+}
+.modlist__item--form svg { margin-top: 2px; }
+
+/* ---------- account ---------- */
+
+.sidebar__foot {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  padding: 12px 12px 14px;
+  border-top: 1px solid var(--chrome-hairline);
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  padding: 4px;
+}
+.account__avatar {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--brand-tint) 70%, var(--brand-accent)),
+    var(--brand-accent)
+  );
+}
+.account__name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--type-sidebar-action-size);
+  font-weight: var(--type-sidebar-action-weight);
+  color: var(--chrome-text);
+}
+
+.logout {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 8px 6px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  font-size: var(--type-sidebar-action-size);
+  font-weight: var(--type-sidebar-action-weight);
+  color: var(--chrome-text);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.logout svg { flex-shrink: 0; color: var(--chrome-text-2); }
+.logout:hover { background: var(--brand-hover); color: var(--brand-accent); }
+.logout:hover svg { color: var(--brand-accent); }
+
+/* ---------- welcome pane ---------- */
+
+.welcome {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: end stretch;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.welcome .contours { --contour-ink: rgba(255, 255, 255, 0.11); }
+
+.welcome__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 20, 14, 0.35),
+    rgba(10, 20, 14, 0.3) 40%,
+    rgba(10, 20, 14, 0.88)
+  );
+}
+
+.welcome__body {
+  position: relative;
+  padding: 48px 40px;
+  max-width: 42rem;
+}
+
+.welcome__title {
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  margin: 10px 0 0;
+  color: #ffffff;
+}
+
+.welcome__tagline { color: var(--on-photo); margin: 12px 0 0; }
+
+.welcome__hint {
+  margin: 18px 0 0;
+  font-weight: 600;
+  color: var(--on-photo-accent);
+}
+
+/* ---------- login ---------- */
+
+/*
+ * Photograph on the left, a tinted panel with one credential card on the right.
+ *
+ * Every colour below is derived from two variables LoginPage sets from the
+ * portal's own catalog entry: --login-tint (the module accent) washes the panel
+ * and the inputs, --login-accent (the contrast-guarded accentText) carries the
+ * title, the badge, the focus ring and the button. So each split portal gets
+ * the same page in its own colour without a per-portal rule.
+ */
+.login {
+  --login-accent: var(--chrome-accent);
+  --login-tint: var(--login-accent);
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  background: color-mix(in srgb, var(--login-tint) 20%, #ffffff);
+}
+
+.login-visual {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.login-panel {
+  display: grid;
+  place-items: center;
+  padding: 32px 24px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 30px 26px;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--login-tint) 35%, #ffffff);
+  background: #ffffff;
+  box-shadow:
+    0 1px 2px rgba(18, 16, 14, 0.04),
+    0 18px 40px color-mix(in srgb, var(--login-accent) 16%, transparent);
+}
+
+.login-card__badge {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 10px;
+  color: #ffffff;
+  background: var(--login-accent);
+}
+.login-card__badge svg { stroke-width: 2.2; }
+
+.login-card__title {
+  margin: 2px 0 6px;
+  font-size: var(--type-login-title-size);
+  font-weight: var(--type-login-title-weight);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-align: center;
+  text-wrap: balance;
+  color: var(--login-accent);
+}
+
+.field { width: 100%; display: flex; flex-direction: column; gap: 6px; }
+
+.field label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--chrome-text-2);
+}
+
+.field input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1.5px solid color-mix(in srgb, var(--login-tint) 50%, #ffffff);
+  background: color-mix(in srgb, var(--login-tint) 5%, #ffffff);
+  color: var(--chrome-text);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.field input::placeholder { color: var(--chrome-dim); }
+.field input:focus {
+  outline: none;
+  border-color: var(--login-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--login-tint) 22%, transparent);
+}
+.field input:disabled { opacity: 0.6; }
+
+.login-card__error {
+  width: 100%;
+  margin: 0;
+  font-size: 13px;
+  color: var(--chrome-danger);
+}
+
+.login-card__submit {
+  width: 100%;
+  margin-top: 8px;
+  min-height: 44px;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    var(--login-accent),
+    color-mix(in srgb, var(--login-accent) 80%, #000000)
+  );
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--login-accent) 22%, transparent);
+  transition: filter 0.15s ease;
+}
+.login-card__submit:hover:not(:disabled) {
+  background: linear-gradient(
+    90deg,
+    var(--login-accent),
+    color-mix(in srgb, var(--login-accent) 80%, #000000)
+  );
+  filter: brightness(0.94);
+}
+
+/* ---------- legal ---------- */
+
+.legal {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
+}
+
+.legal__crumbs a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--copper);
+}
+.legal__crumbs a:hover { color: var(--copper-600); }
+
+.legal__title { font-size: clamp(1.6rem, 3vw, 2.1rem); margin: 16px 0 0; }
+.legal__para { color: var(--ink-2); margin: 18px 0 0; }
+
+/* ---------- footer ---------- */
+
+.footer {
+  position: relative;
+  overflow: hidden;
+  background: var(--chrome);
+  border-top: 1px solid var(--chrome-hairline);
+}
+
+.footer .contours { --contour-ink: rgba(255, 255, 255, 0.07); }
+
+.footer__inner {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 24px 28px;
+}
+
+.footer__cols {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.footer__brand { margin: 0; font-weight: 700; color: var(--chrome-text); }
+.footer__sub { margin: 4px 0 0; font-size: 13px; color: var(--chrome-dim); }
+.footer__blurb { margin: 12px 0 0; font-size: 14px; color: var(--chrome-text-2); max-width: 32rem; }
+
+.footer__heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--chrome-text);
+}
+.footer__spark { color: var(--chrome-accent); }
+
+.footer__links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.footer__links a { font-size: 13px; color: var(--chrome-text-2); }
+.footer__links a:hover { color: var(--chrome-accent); }
+
+.footer__bottom {
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 1px solid var(--chrome-hairline);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer__bottomlinks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+.footer__bottomlinks a { font-size: 13px; color: var(--chrome-text-2); }
+.footer__bottomlinks a:hover { color: var(--chrome-accent); }
+
+.footer__note,
+.footer__copy { margin: 0; font-size: 12px; color: var(--chrome-dim); }
+
+/* ---------- narrow layout ---------- */
+
+@media (max-width: 960px) {
+  .login {
+    grid-template-columns: 1fr;
+  }
+  .login-visual { min-height: 180px; }
+
+  /* Overlay drawer. Never width-0 here — it slides instead. */
+  .workspace-sidebar {
+    position: absolute;
+    inset: 0 auto 0 0;
+    z-index: 30;
+    width: 300px;
+    transform: translateX(-105%);
+    transition: transform 0.22s ease;
+    box-shadow: 12px 0 34px rgba(12, 11, 10, 0.45);
+  }
+  .workspace.is-nav-open .workspace-sidebar { transform: none; }
+  .workspace.is-nav-closed .workspace-sidebar {
+    width: 300px;
+    border-right-width: 1px;
+    opacity: 1;
+  }
+
+  .workspace.is-nav-open .workspace-scrim {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    border: 0;
+    padding: 0;
+    background: rgba(18, 16, 14, 0.35);
+  }
+
+  .welcome__body { padding: 32px 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner, .btn-spinner { animation-duration: 2s; }
+  .workspace-sidebar { transition: none; }
+}

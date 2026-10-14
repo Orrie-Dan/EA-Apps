@@ -1,0 +1,5 @@
+/portal/*  https://gis.rbc.gov.rw/portal/:splat  200
+/server/*  https://gis.rbc.gov.rw/server/:splat  200
+/sharing/*  https://gis.rbc.gov.rw/sharing/:splat  200
+/arcgis/*  https://gis.rbc.gov.rw/arcgis/:splat  200
+/*    /index.html   200
