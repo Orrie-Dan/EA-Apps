@@ -5,7 +5,8 @@ import { RuntimeConfigProvider } from '../config/RuntimeConfigProvider'
 import { AuthProvider } from '../auth/AuthContext'
 import { PortalAccessProvider } from '../auth/PortalAccessProvider'
 import AppViewer from './AppViewer'
-import HomePage from './HomePage'
+import { HomePage } from '@ea/ui'
+import AppShell from '../shell.jsx'
 import { buildProxyEmbedUrl } from '../lib/access'
 import { appPath } from '../lib/appPath.js'
 
@@ -36,12 +37,14 @@ function renderAt(path) {
     <RuntimeConfigProvider>
       <AuthProvider>
         <PortalAccessProvider>
+          <AppShell>
           <MemoryRouter initialEntries={[path]}>
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/module/:moduleId/app/:solutionId" element={<AppViewer />} />
             </Routes>
           </MemoryRouter>
+          </AppShell>
         </PortalAccessProvider>
       </AuthProvider>
     </RuntimeConfigProvider>,

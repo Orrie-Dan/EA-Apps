@@ -13,6 +13,7 @@
     "lint": "eslint \"src/config/**/*.{js,jsx}\" \"src/auth/**/*.{js,jsx}\" \"src/lib/**/*.js\""
   },
   "dependencies": {
+    "@ea/ui": "file:../packages/ui",
     "lucide-react": "^1.39.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

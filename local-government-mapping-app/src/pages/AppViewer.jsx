@@ -1,6 +1,6 @@
 import { Navigate, useParams } from 'react-router-dom'
+import { ViewerFrame, ViewerLoading, ViewerMessage, ViewerError } from '@ea/ui'
 import { useEffect, useMemo, useState } from 'react'
-import ArcGisDashboardFrame from '../components/ArcGisDashboardFrame'
 import { useRuntimeConfig } from '../config/RuntimeConfigProvider'
 import { usePortalAccess } from '../auth/PortalAccessProvider'
 import {
@@ -94,79 +94,50 @@ export default function AppViewer() {
   if (!module || !solution) return <Navigate to="/" replace />
 
   if (!solution.embedUrl && !secured) {
-    return (
-      <div className="viewer viewer--pane">
-        <p>Coming soon.</p>
-      </div>
-    )
+    return <ViewerMessage>Coming soon.</ViewerMessage>
   }
 
   if (!secured) {
-    return (
-      <div className="viewer viewer--pane">
-        <ArcGisDashboardFrame key={solution.id} title={solution.name} src={solution.embedUrl} />
-      </div>
-    )
+    return <ViewerFrame title={solution.name} src={solution.embedUrl} />
   }
 
   if (!portalHostKey) {
     return (
-      <div className="viewer viewer--pane viewer--status">
-        <p role="alert">
-          This map is missing a Portal host configuration. Ask an administrator
-          to set portalHostKey on the catalog item.
-        </p>
-      </div>
+      <ViewerMessage alert>
+        This map is missing a Portal host configuration. Ask an administrator
+        to set portalHostKey on the catalog item.
+      </ViewerMessage>
     )
   }
 
   if (STATIC_BUILD) {
     if (!directSrc) {
       return (
-        <div className="viewer viewer--pane viewer--status">
-          <p role="alert">
-            This map is missing a Portal item configuration. Ask an
-            administrator to set portalItemId on the catalog item.
-          </p>
-        </div>
+        <ViewerMessage alert>
+          This map is missing a Portal item configuration. Ask an
+          administrator to set portalItemId on the catalog item.
+        </ViewerMessage>
       )
     }
-    return (
-      <div className="viewer viewer--pane">
-        <ArcGisDashboardFrame key={directSrc} title={solution.name} src={directSrc} />
-      </div>
-    )
+    return <ViewerFrame title={solution.name} src={directSrc} />
   }
 
   if (preparing || hostState.status === 'loading' || hostState.status === 'idle') {
-    return (
-      <div className="viewer viewer--pane viewer--status">
-        <div className="boot-orbit" aria-label="Loading map" />
-        <p>Connecting to the mapping portal…</p>
-      </div>
-    )
+    return <ViewerLoading />
   }
 
   if (hostState.status === 'error' || !proxySrc) {
     return (
-      <div className="viewer viewer--pane viewer--status">
-        <p role="alert">
-          {hostState.error ||
-            'Unable to connect to the mapping portal. Please try again.'}
-        </p>
-        <button
-          type="button"
-          className="btn btn-cosmic"
-          onClick={() => {
-            setPreparing(true)
-            void refresh(portalHostKey)
-              .then(() => setPreparing(false))
-              .catch(() => setPreparing(false))
-          }}
-        >
-          Retry
-        </button>
-      </div>
+      <ViewerError
+        message={hostState.error ||
+          'Unable to connect to the mapping portal. Please try again.'}
+        onRetry={() => {
+          setPreparing(true)
+          void refresh(portalHostKey)
+            .then(() => setPreparing(false))
+            .catch(() => setPreparing(false))
+        }}
+      />
     )
   }
 
@@ -174,9 +145,5 @@ export default function AppViewer() {
     console.info('[portal-embed]', sanitizePortalEmbedUrl(proxySrc))
   }
 
-  return (
-    <div className="viewer viewer--pane">
-      <ArcGisDashboardFrame key={solution.id} title={solution.name} src={proxySrc} />
-    </div>
-  )
+  return <ViewerFrame title={solution.name} src={proxySrc} />
 }

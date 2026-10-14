@@ -39,7 +39,8 @@ The design goals that followed:
 
 | Component | Location | Technology | Role |
 | --- | --- | --- | --- |
-| 13 mapping apps | `EA Apps/*-app` | React 19, Vite, Tailwind, Vitest | The sector portals |
+| 13 mapping apps | `EA Apps/*-app` | React 19, Vite, Vitest | The sector portals |
+| Shared UI | `EA Apps/packages/ui` (`@ea/ui`) | React components + CSS | One look for all 13 apps ([shared-ui.md](shared-ui.md)) |
 | Runtime Config service | `D:\Esri\runtime-config-service` | NestJS 11, Prisma 6, PostgreSQL | Config API, app sign-in, portal proxy, token broker, monitor |
 | Runtime Config Admin | `D:\Esri\runtime-config-admin` | React 19, Vite, TypeScript | Admin console: apps, config editor, audit, portal credentials, Status |
 | GeoHub portal | `https://gh.space.gov.rw/portal` | ArcGIS Enterprise 2024.1 | Main content and the user identity provider |
@@ -196,6 +197,10 @@ to its siblings.
 The pop and infra families both patch framed dashboards with
 `public/dashboards/ssl-patch.js`.
 
+The families differ in server and auth code only. Since 2026-10-14 every app
+draws its screens from `packages/ui` through its `src/shell.jsx` adapter
+([shared-ui.md](shared-ui.md)).
+
 Common to all of them: `src/config/` (Runtime Config loader, `applyTypography.js`,
 `deployMode.js`, `runtimeConfigUrl.js`), `src/auth/runtimeSessionAuth.js`
 (static sign-in), and the server modules in §4.2.
@@ -215,7 +220,7 @@ land, local-government, disaster, mining, water, parks, education.
 | Oct 11 | App-gate security fix. All apps served under `/<app-key>/`. Retry-storm guard. Backend moved behind IIS. |
 | Oct 12 | Static-build mode. Service-side app sign-in + portal proxy (option A), per-app session cookies. Ported to all 12 apps. |
 | Oct 13 | Education app built from the population template. Shared typography + `typography.css`. Pinned RBC certificate exception. gh2/moe/infra hosts. Proxy caching and compression. StoryMaps framed directly. |
-| Oct 14 | Status monitor + email alerts in the service, Status page in the admin console. |
+| Oct 14 | Status monitor + email alerts in the service, Status page in the admin console. Monorepo baseline commit. All 13 apps moved onto the shared UI package `packages/ui` (Infrastructure look); Tailwind removed from the env family. |
 
 Before each change, file copies were saved under `_backup/<date>-<topic>/`. That folder now lives in `EA Apps archive/` (see the README).
 
