@@ -26,6 +26,9 @@ export const PROXY_HOSTS = {
   rmbw: RMB_ORIGIN,
   rbc: RBC_PORTAL_URL,
   rbcw: RBC_ORIGIN,
+  // RBC under the Runtime Config "rbc1" credential, the account the RBC
+  // Survey123 forms are shared with (rbc cannot open them).
+  rbc1: RBC_PORTAL_URL,
   esrirw: ESRIRW_PORTAL_URL,
   esrirww: ESRIRW_ORIGIN,
   s123: SURVEY123_ORIGIN,

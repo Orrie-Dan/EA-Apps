@@ -124,8 +124,12 @@ so when that app's config references that host and an active credential
 exists. Tokens are cached until 60 s before expiry and bound to the requesting
 origin as referer.
 
-**Survey123 forms** that need the user's own identity open on
-`survey123.arcgis.com`, which asks for its own sign-in. **StoryMaps** are framed
+**Survey123 forms** are framed through the proxy as well, under the reserved
+host key `s123` (survey123.arcgis.com, no token, GET/HEAD only). Their
+`portalUrl` points at the form host's proxy, so the form loads with that host's
+service account and no second sign-in. They are view-only: submissions are
+blocked. A form's `portalHostKey` must name a credential the form is shared
+with (RBC forms use `rbc1`). **StoryMaps** are framed
 directly and never proxied, because the StoryMaps router only accepts its own
 paths (see `storymap-links.*`).
 

@@ -219,7 +219,7 @@ export const DEFAULT_RUNTIME_CONFIG = {
           "icon": "clipboard-list",
           "kind": "survey123",
           "portalItemId": "d0ccb11cd8424ee39114c2a986cd04c2",
-          "portalHostKey": "rbc"
+          "portalHostKey": "rbc1"
         },
         {
           "id": "contact-report-form",
@@ -230,7 +230,7 @@ export const DEFAULT_RUNTIME_CONFIG = {
           "icon": "clipboard-list",
           "kind": "survey123",
           "portalItemId": "93a5a69aeccf4903b6bc94e2a3021539",
-          "portalHostKey": "rbc"
+          "portalHostKey": "rbc1"
         }
       ]
     },
