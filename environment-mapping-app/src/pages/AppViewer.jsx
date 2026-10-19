@@ -42,6 +42,10 @@ export function staticFrameSrc(solution, portalHostKey) {
     if (!itemId) return null
     return `${SURVEY123_ORIGIN}/share/${encodeURIComponent(itemId)}?portalUrl=${encodeURIComponent(root)}`
   }
+  // An external URL wins over a leftover shell path, as in resolveRuntimeConfig.
+  // A root-relative shell such as "/air-quality" would otherwise be put under
+  // this app's base, fall back to index.html and frame the app inside itself.
+  if (kind === 'external' && solution.externalUrl) return solution.externalUrl
   if (solution.localShellPath) {
     // A shell on a proxied portal goes through the Runtime Config proxy too.
     const shellHost = portalHostForUrl(solution.localShellPath, portalHostKey)
