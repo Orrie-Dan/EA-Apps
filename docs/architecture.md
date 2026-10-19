@@ -98,7 +98,9 @@ encrypted `PortalCredential` table).
             refuses a foreign Origin, refuses admin/sign-in/edit operations
             gets a service-account token for <hostKey> from the broker (cached)
             fetches the portal URL with the token, rewrites portal URLs in
-            the response back to the proxy path, scrubs the token from body
+            the response back to the proxy (absolute URLs stay absolute on
+            the app origin, so IdentityManager can match a server's
+            owningSystemUrl to its portal), scrubs the token from body
             and Location headers
 ```
 
