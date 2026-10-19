@@ -212,8 +212,8 @@ describe('WorkspaceSidebar grouping', () => {
 })
 
 /*
- * A form is nested inside its dashboard's <li>, not listed beside it. That
- * containment is what ties a form to its dashboard, whatever the form's name.
+ * A form is listed right after its dashboard, at the same level as every other
+ * app. That position is what ties a form to its dashboard, whatever its name.
  */
 describe('WorkspaceSidebar forms', () => {
   const paired = modules.flatMap((mod) =>
@@ -224,15 +224,16 @@ describe('WorkspaceSidebar forms', () => {
     expect(paired.length).toBeGreaterThan(0)
   })
 
-  it('nests each form inside the row of the dashboard it feeds', () => {
+  it('lists each form right after the dashboard it feeds, at the same level', () => {
     renderAt()
     for (const [mod, dashboard] of paired) {
-      const parentRow = row(mod, dashboard).closest('li')
-      const formLink = within(parentRow).getByRole('link', {
-        name: (name, el) =>
-          el.getAttribute('href') === `/module/${mod.id}/app/${dashboard.form.id}`,
-      })
+      const dashboardItem = row(mod, dashboard).closest('li')
+      const formLink = row(mod, dashboard.form)
+      const formItem = formLink.closest('li')
       expect(formLink).toHaveTextContent(dashboard.form.name)
+      expect(formItem.parentElement).toBe(dashboardItem.parentElement)
+      expect(dashboardItem.nextElementSibling).toBe(formItem)
+      expect(dashboardItem.querySelector('ul')).toBeNull()
     }
   })
 

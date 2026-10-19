@@ -378,12 +378,6 @@ img {
   gap: 2px;
 }
 
-/* A dashboard's data-collection form, nested under it. */
-.workspace-menu-children--form {
-  margin-top: 2px;
-  padding-left: 20px;
-}
-
 .workspace-menu-child {
   position: relative;
   display: flex;
@@ -396,10 +390,6 @@ img {
   line-height: 16px;
   color: var(--text-2);
   transition: background-color 160ms ease, color 160ms ease;
-}
-
-.workspace-menu-child--form {
-  color: var(--text-3);
 }
 
 .workspace-menu-child-icon {

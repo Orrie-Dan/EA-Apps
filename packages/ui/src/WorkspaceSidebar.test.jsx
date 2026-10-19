@@ -90,13 +90,16 @@ describe('WorkspaceSidebar', () => {
     expect(region.querySelector('.workspace-menu-parent')).toHaveTextContent('Parks')
   })
 
-  it('nests a dashboard form under its dashboard and shows group labels', () => {
+  it('lists a dashboard form right after its dashboard, at the same level, and shows group labels', () => {
     renderShell(sidebar, { path: '/module/protected/app/incident-form', config: makeConfig({ modules: envModules }) })
     expect(screen.getByText('Monitoring')).toBeInTheDocument()
     const formLink = screen.getByRole('link', { name: 'Incident Form' })
     expect(formLink).toHaveAttribute('href', '/module/protected/app/incident-form')
     expect(formLink).toHaveClass('workspace-menu-child--form', 'is-active')
     expect(screen.getAllByRole('link', { name: 'Incident Form' })).toHaveLength(1)
+    const dashboardItem = screen.getByRole('link', { name: 'Incident Monitoring' }).closest('li')
+    expect(formLink.closest('li').parentElement).toBe(dashboardItem.parentElement)
+    expect(dashboardItem.nextElementSibling).toBe(formLink.closest('li'))
   })
 
   it('shows the signed-in user and logs out to /login', async () => {

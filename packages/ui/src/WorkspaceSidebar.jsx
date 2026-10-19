@@ -17,7 +17,7 @@ function initials(name) {
  * One labelled section per module.
  *
  * Catalogs come in three shapes: a module with a flat solution list, a module
- * with named groups, and dashboards carrying a data-collection `form`. A module
+ * with named groups, and dashboards carrying a data-collection `form`, listed right after them. A module
  * shows its own heading with its groups as sub-labels, unless it is `untitled`
  * or is the only module and has groups — then its groups take the heading
  * style instead (the brand above already names a sole module). A module
@@ -60,7 +60,7 @@ export default function WorkspaceSidebar() {
         aria-current={isActive ? 'page' : undefined}
       >
         <span className="workspace-menu-child-icon">
-          <IconMark name={item.icon} size={form ? 14 : 16} />
+          <IconMark name={item.icon} size={16} />
         </span>
         <span className="workspace-menu-child-label">{item.name}</span>
       </NavLink>
@@ -113,16 +113,11 @@ export default function WorkspaceSidebar() {
                   </div>
                 ) : null}
                 <ul className="workspace-menu-children">
-                  {group.solutions.filter((s) => !s.isForm).map((item) => (
-                    <li key={item.id}>
-                      {row(section.mod, item)}
-                      {item.form ? (
-                        <ul className="workspace-menu-children workspace-menu-children--form" aria-label={`${item.name} forms`}>
-                          <li>{row(section.mod, item.form, true)}</li>
-                        </ul>
-                      ) : null}
-                    </li>
-                  ))}
+                  {group.solutions.filter((s) => !s.isForm).flatMap((item) => [
+                    <li key={item.id}>{row(section.mod, item)}</li>,
+                    // A dashboard's form follows it at the same level as the other apps.
+                    item.form ? <li key={`${item.id}:form`}>{row(section.mod, item.form, true)}</li> : null,
+                  ])}
                 </ul>
               </div>
             ))}
