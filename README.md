@@ -63,6 +63,11 @@ The service and the admin console each have their own README too:
 has to be ported to the rest of its family; see
 [architecture.md § App families](docs/architecture.md#6-app-families).
 
+All 13 apps share one look (the Infrastructure design) from
+`packages/ui` (`@ea/ui`): login, sidebar, content-pane states and styles. Each
+app sets only its accent colour, mark and name in `src/shell.jsx`. See
+[docs/shared-ui.md](docs/shared-ui.md).
+
 The deployed folder name **must equal the application key**. For example, mining
 is served at `/mining-sites/`, not `/mining-sites-mapping/`. Otherwise the page
 loads blank.

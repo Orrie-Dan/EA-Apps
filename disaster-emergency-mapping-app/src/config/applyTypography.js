@@ -3,7 +3,7 @@
  *
  * The runtime-config-service merges the `shared-theme` default under each
  * app's own values. Each role/property becomes a CSS custom property
- * (`--type-<role>-<prop>`) that index.css reads; the :root block in index.css
+ * (`--type-<role>-<prop>`) that @ea/ui styles.css reads; the :root block there
  * holds the Infrastructure values used when the config sets nothing.
  *
  * Same value rules as the service (src/config/typography.ts) — anything else

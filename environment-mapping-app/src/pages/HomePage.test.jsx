@@ -2,9 +2,9 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom'
 import { RuntimeConfigProvider } from '../config/RuntimeConfigProvider'
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
-import HomePage from './HomePage'
 import AppViewer from './AppViewer'
-import WorkspaceSidebar from '../components/WorkspaceSidebar'
+import { HomePage, WorkspaceNavProvider, WorkspaceSidebar } from '@ea/ui'
+import AppShell from '../shell.jsx'
 import { AuthProvider } from '../auth/AuthContext'
 import { PortalAccessProvider } from '../auth/PortalAccessProvider'
 
@@ -17,14 +17,18 @@ const renderAt = (path) =>
     <RuntimeConfigProvider>
       <AuthProvider>
         <PortalAccessProvider>
+          <AppShell>
           <MemoryRouter initialEntries={[path]}>
-            <WorkspaceSidebar />
+            <WorkspaceNavProvider>
+              <WorkspaceSidebar />
+            </WorkspaceNavProvider>
             <Where />
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/module/:moduleId/app/:solutionId" element={<AppViewer />} />
             </Routes>
           </MemoryRouter>
+          </AppShell>
         </PortalAccessProvider>
       </AuthProvider>
     </RuntimeConfigProvider>,

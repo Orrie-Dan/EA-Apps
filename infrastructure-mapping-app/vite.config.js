@@ -32,6 +32,9 @@ export default defineConfig(({ command, mode }) => {
 
   return {
     base: `${APP_BASE_PATH}/`,
+    // @ea/ui is linked from ../packages/ui: resolve its React/router/icons from
+    // this app so there is one copy of each.
+    resolve: { dedupe: ['react', 'react-dom', 'react-router-dom', 'lucide-react'] },
     plugins,
     define: {
       'import.meta.env.VITE_STATIC_BUILD': JSON.stringify(isStatic ? '1' : ''),

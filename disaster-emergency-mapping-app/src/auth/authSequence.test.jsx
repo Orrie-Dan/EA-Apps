@@ -15,7 +15,8 @@ const { AuthProvider, useAuth } = await import('./AuthProvider.jsx')
 const { PortalAccessProvider, usePortalAccess } =
   await import('./PortalAccessProvider.jsx')
 const AuthGate = (await import('./AuthGate.jsx')).default
-const LandingPage = (await import('../pages/LandingPage.jsx')).default
+const AppShell = (await import('../shell.jsx')).default
+const { LoginPage } = await import('@ea/ui')
 
 vi.mock('../config/RuntimeConfigProvider', () => ({
   useRuntimeConfig: () => ({
@@ -57,6 +58,9 @@ function renderAuthApp(initialPath) {
         PortalAccessProvider,
         null,
         createElement(
+          AppShell,
+          null,
+          createElement(
           MemoryRouter,
           { initialEntries: [initialPath] },
           createElement(
@@ -64,7 +68,7 @@ function renderAuthApp(initialPath) {
             null,
             createElement(Route, {
               path: '/login',
-              element: createElement(LandingPage),
+              element: createElement(LoginPage),
             }),
             createElement(
               Route,
@@ -80,6 +84,7 @@ function renderAuthApp(initialPath) {
                 element: createElement('div', null, 'Home'),
               }),
             ),
+          ),
           ),
         ),
       ),

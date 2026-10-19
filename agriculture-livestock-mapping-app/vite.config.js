@@ -42,6 +42,9 @@ export default defineConfig(({ mode }) => {
 
   return {
     base: `${APP_BASE_PATH}/`,
+    // @ea/ui is linked from ../packages/ui: resolve its React/router/icons from
+    // this app so there is one copy of each.
+    resolve: { dedupe: ['react', 'react-dom', 'react-router-dom', 'lucide-react'] },
     // Static-file build for hosting ON the portal web server (no app backend).
     // Selected with `--mode static` (npm run build:static); flips VITE_STATIC_BUILD.
     define: {

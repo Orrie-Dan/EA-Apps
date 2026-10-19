@@ -1,6 +1,6 @@
 import { Navigate, useParams } from 'react-router-dom'
+import { ViewerFrame, ViewerLoading, ViewerMessage, ViewerError } from '@ea/ui'
 import { useEffect, useMemo, useState } from 'react'
-import ArcGisDashboardFrame from '../components/ArcGisDashboardFrame'
 import { useRuntimeConfig } from '../config/RuntimeConfigProvider'
 import { usePortalAccess } from '../auth/PortalAccessProvider'
 import {
@@ -17,11 +17,43 @@ function needsPortalBroker(solution) {
   if (!solution) return false
   if (solution.localShellPath) return false
   if (solution.portalHostKey === 'web') return false
-  // Public Survey123 shares keep absolute embed URLs; Esri Rwanda forms need the proxy.
-  if (solution.kind === 'survey123' && solution.portalHostKey !== 'esrirw') {
+  // Static hosting frames every form through the Runtime Config proxy. In dev,
+  // public Survey123 shares keep absolute embed URLs; Esri Rwanda forms need the proxy.
+  if (
+    solution.kind === 'survey123' &&
+    solution.portalHostKey !== 'esrirw' &&
+    !STATIC_BUILD
+  ) {
     return false
   }
   return Boolean(solution.portalItemId && solution.portalHostKey)
+}
+
+/**
+ * Frame source for a static build (no app server). Protected portal pages go
+ * through the Runtime Config service's session-gated proxy, which attaches the
+ * portal token server-side. Survey123 runs on survey123.arcgis.com, not on the
+ * portal: its page comes through the proxy's `s123` host and reads the form's
+ * portal through the proxy as well, so the form needs no second sign-in.
+ */
+export function staticFrameSrc(solution, portalHostKey) {
+  if (!solution || !portalHostKey) return null
+  const itemId = encodeURIComponent(String(solution.portalItemId || '').trim())
+  if (!itemId) return null
+  const root = String(PROXY_HOSTS[portalHostKey] || PORTAL_URL).replace(/\/$/, '')
+  const kind = solution.authKind || solution.kind
+  if (kind === 'survey123') {
+    const portalUrl = runtimeProxyFrameUrl(root, portalHostKey)
+    return runtimeProxyFrameUrl(
+      `${SURVEY123_ORIGIN}/share/${itemId}?portalUrl=${encodeURIComponent(portalUrl)}`,
+      's123',
+    )
+  }
+  const portalUrl =
+    kind === 'experience'
+      ? `${root}/apps/experiencebuilder/experience/?id=${itemId}`
+      : `${root}/apps/dashboards/${itemId}`
+  return runtimeProxyFrameUrl(portalUrl, portalHostKey)
 }
 
 /**
@@ -46,20 +78,8 @@ export default function AppViewer() {
   // Static hosting frames the portal through the Runtime Config service's
   // session-gated proxy, which attaches the portal token server-side.
   const directSrc = useMemo(() => {
-    if (!STATIC_BUILD || !secured || !portalHostKey) return null
-    const itemId = solution.portalItemId
-    const root = String(PROXY_HOSTS[portalHostKey] || PORTAL_URL).replace(/\/$/, '')
-    const kind = solution.authKind || solution.kind
-    // Survey123 runs on survey123.arcgis.com, not on the portal; the form asks
-    // for a portal sign-in itself.
-    if (kind === 'survey123') {
-      return `${SURVEY123_ORIGIN}/share/${itemId}?portalUrl=${root}`
-    }
-    const portalUrl =
-      kind === 'experience'
-        ? `${root}/apps/experiencebuilder/experience/?id=${itemId}`
-        : `${root}/apps/dashboards/${itemId}`
-    return runtimeProxyFrameUrl(portalUrl, portalHostKey)
+    if (!STATIC_BUILD || !secured) return null
+    return staticFrameSrc(solution, portalHostKey)
   }, [secured, solution, portalHostKey])
 
   useEffect(() => {
@@ -103,79 +123,50 @@ export default function AppViewer() {
     (solution.embedUrl && !secured ? solution.embedUrl : null)
 
   if (!publicSrc && !secured) {
-    return (
-      <div className="viewer viewer--pane">
-        <p>Coming soon.</p>
-      </div>
-    )
+    return <ViewerMessage>Coming soon.</ViewerMessage>
   }
 
   if (!secured) {
-    return (
-      <div className="viewer viewer--pane">
-        <ArcGisDashboardFrame title={solution.name} src={publicSrc} />
-      </div>
-    )
+    return <ViewerFrame title={solution.name} src={publicSrc} />
   }
 
   if (!portalHostKey) {
     return (
-      <div className="viewer viewer--pane viewer--status">
-        <p role="alert">
-          This map is missing a Portal host configuration. Ask an administrator
-          to set portalHostKey on the catalog item.
-        </p>
-      </div>
+      <ViewerMessage alert>
+        This map is missing a Portal host configuration. Ask an administrator
+        to set portalHostKey on the catalog item.
+      </ViewerMessage>
     )
   }
 
   if (STATIC_BUILD) {
     if (!directSrc) {
       return (
-        <div className="viewer viewer--pane viewer--status">
-          <p role="alert">
-            This map is missing a Portal item configuration. Ask an
-            administrator to set portalItemId on the catalog item.
-          </p>
-        </div>
+        <ViewerMessage alert>
+          This map is missing a Portal item configuration. Ask an
+          administrator to set portalItemId on the catalog item.
+        </ViewerMessage>
       )
     }
-    return (
-      <div className="viewer viewer--pane">
-        <ArcGisDashboardFrame key={directSrc} title={solution.name} src={directSrc} />
-      </div>
-    )
+    return <ViewerFrame title={solution.name} src={directSrc} />
   }
 
   if (preparing || hostState.status === 'loading' || hostState.status === 'idle') {
-    return (
-      <div className="viewer viewer--pane viewer--status">
-        <div className="boot-orbit" aria-label="Loading map" />
-        <p>Connecting to the mapping portal…</p>
-      </div>
-    )
+    return <ViewerLoading />
   }
 
   if (hostState.status === 'error' || !proxySrc) {
     return (
-      <div className="viewer viewer--pane viewer--status">
-        <p role="alert">
-          {hostState.error ||
-            'Unable to connect to the mapping portal. Please try again.'}
-        </p>
-        <button
-          type="button"
-          className="btn btn-cosmic"
-          onClick={() => {
-            setPreparing(true)
-            void refresh(portalHostKey)
-              .then(() => setPreparing(false))
-              .catch(() => setPreparing(false))
-          }}
-        >
-          Retry
-        </button>
-      </div>
+      <ViewerError
+        message={hostState.error ||
+          'Unable to connect to the mapping portal. Please try again.'}
+        onRetry={() => {
+          setPreparing(true)
+          void refresh(portalHostKey)
+            .then(() => setPreparing(false))
+            .catch(() => setPreparing(false))
+        }}
+      />
     )
   }
 
@@ -183,9 +174,5 @@ export default function AppViewer() {
     console.info('[portal-embed]', sanitizePortalEmbedUrl(proxySrc))
   }
 
-  return (
-    <div className="viewer viewer--pane">
-      <ArcGisDashboardFrame title={solution.name} src={proxySrc} />
-    </div>
-  )
+  return <ViewerFrame title={solution.name} src={proxySrc} />
 }

@@ -76,4 +76,21 @@ describe('staticFrameSrc', () => {
       staticFrameSrc({ kind: 'dashboard', portalItemId: 'abc', portalHostKey: 'nope' }, 'nope'),
     ).toBeNull()
   })
+
+  it('prefers the external URL over a leftover root-relative shell path', () => {
+    // Live air-quality item: framing "/air-quality" under the app base loaded
+    // index.html, which framed the app inside itself without end.
+    expect(
+      staticFrameSrc(
+        {
+          kind: 'external',
+          externalUrl: 'https://gh.space.gov.rw/air-quality',
+          localShellPath: '/air-quality',
+          portalItemId: '75c503067fd2423391d0789c7a4f6f8a',
+          portalHostKey: host,
+        },
+        host,
+      ),
+    ).toBe('https://gh.space.gov.rw/air-quality')
+  })
 })

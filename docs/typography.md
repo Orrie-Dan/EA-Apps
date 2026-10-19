@@ -9,8 +9,8 @@ The baseline is the Infrastructure app.
    **`shared-theme`** (must be active). `GET /api/v1/config/<appKey>` merges it into
    every app's config.
 2. **Per-app override:** an app's own `branding.typography` wins, per role and property.
-3. **Built-in fallback:** if neither sets a value, each app's `src/index.css` `:root`
-   block holds the Infrastructure values.
+3. **Built-in fallback:** if neither sets a value, the `:root` block of the shared
+   stylesheet (`packages/ui/src/styles.css`) holds the Infrastructure values.
 
 Edit the `shared-theme` row through the admin API like any other application. Apps pick
 up the change on their next page load. No rebuild or redeploy is needed.
@@ -61,4 +61,5 @@ up the change on their next page load. No rebuild or redeploy is needed.
 - Service: `src/config/typography.ts` (validation, merge), `config.service.ts` (applies `shared-theme`),
   `prisma/seed-data/shared-theme.config.json` (seeded create-only).
 - Apps: `src/config/applyTypography.js` (sets the `--type-*` CSS variables before paint, from
-  `RuntimeConfigProvider.jsx`), and the `:root` block plus `var(--type-*)` rules in `src/index.css`.
+  `RuntimeConfigProvider.jsx`), and the `:root` block plus `var(--type-*)` rules in
+  `packages/ui/src/styles.css`.
